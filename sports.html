@@ -1,0 +1,113 @@
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.2/dist/aframe-physics-system.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.4.0/dist/aframe-extras.min.js"></script>
+<script type="module">
+  function getRandomInt(min, max) {
+    return min + Math.floor((max - min + 1) * Math.random());
+  }
+
+  function getRandomColor() {
+    let red = getRandomInt(0, 255);
+    let green = getRandomInt(0, 255);
+    let blue = getRandomInt(0, 255);
+
+    return `rgb(${red}, ${green}, ${blue})`;
+  }
+  function getRandomSkin() {
+    let r = getRandomInt(130, 255);
+    let g = getRandomInt(130, 70);
+    let b = getRandomInt(100, 40);
+
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+
+  console.log(getRandomInt(-50, 50));
+  console.log(getRandomColor());
+
+  let a = getRandomInt(-50, 50);
+
+  body.setAttribute("color", getRandomColor());
+  leg1.setAttribute("color", getRandomColor());
+  leg2.setAttribute("color", leg1.getAttribute("color"));
+  head.setAttribute("color", getRandomSkin());
+  eye1.setAttribute("color", getRandomColor());
+  eye2.setAttribute("color", eye1.getAttribute("color"));
+
+  let gb = getRandomInt(1, 2);
+
+  if ((gb = 1)) {
+    thing.setAttribute("visible", false());
+  }
+
+  addEventListener("keypress", (event) => {
+    switch (event.key) {
+      case "e": {
+        camera.setAttribute("position", ((x = 1), (y = 2), (z = 3)));
+        break;
+      }
+    }
+  });
+</script>
+
+<h1>spoco sqare</h1>
+
+<a-scene>
+  <a-text color="black"></a-text>
+  <a-entity
+    light="type:directional; castShadow:true;"
+    position="0 1 1"
+  ></a-entity>
+  <a-plane
+    height="100"
+    color="#aaffaa"
+    width="100"
+    rotation="-90 0 0"
+    position="0 -3 0"
+    shadow="receive: true"
+  ></a-plane>
+  <a-entity>
+    <a-cylinder
+      height="2"
+      radius="0.7"
+      id="body"
+      position="0 0 -4"
+    ></a-cylinder>
+    <a-entity>
+      <a-cylinder
+        id="leg1"
+        height="2"
+        radius="0.3"
+        position="-0.4 -2 -4"
+      ></a-cylinder>
+      <a-cylinder
+        id="leg2"
+        height="2"
+        radius="0.3"
+        position="0.4 -2 -4"
+      ></a-cylinder
+      ><a-sphere id="head" position="0 1.5 -4" radius="0.6"></a-sphere
+      ><a-ring
+        id="eye1"
+        position="0.2 1.7 -3.4"
+        radius-inner="0.1"
+        radius-outer="0.2"
+        scale="0.3 0.3 0.3"
+      ></a-ring
+      ><a-ring
+        id="eye2"
+        position="-0.2 1.7 -3.4"
+        radius-inner="0.1"
+        radius-outer="0.2"
+        scale="0.3 0.3 0.3"
+      ></a-ring></a-entity
+    ><a-ring
+      id="thing"
+      position="0 1.7 -3.4"
+      radius-inner="0.1"
+      radius-outer="0.2"
+      scale="0.3 0.3 0.3"
+    ></a-ring
+  ></a-entity>
+  <a-camera id="camera"><a-cursor></a-cursor></a-camera>
+</a-scene>

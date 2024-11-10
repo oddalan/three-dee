@@ -1,0 +1,102 @@
+<script type="module">
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+
+  let width = 100;
+  let height = 100;
+  let x = 300;
+  let y = 300;
+
+  let mybox = {
+    p1: { x: 0, y: 0, z: 0 },
+    p2: { x: 50, y: 0, z: 0 },
+    p3: { x: 50, y: 50, z: 0 },
+    p4: { x: 0, y: 50, z: 0 },
+    p5: { x: 0, y: 0, z: 50 },
+    p6: { x: 50, y: 0, z: 50 },
+    p7: { x: 50, y: 50, z: 50 },
+    p8: { x: 0, y: 50, z: 50 },
+    u: { r: 255, b: 255, g: 255 },
+    d: { r: 255, b: 255, g: 255 },
+    r: { r: 255, b: 255, g: 255 },
+    l: { r: 255, b: 255, g: 255 },
+
+    f: { r: 255, b: 255, g: 255 },
+    b: { r: 255, b: 255, g: 255 },
+  };
+
+  function drawbox(a, b, c, d, e) {
+    ctx.fillStyle = "rgb(e.r e.g e.b)";
+    ctx.beginPath();
+
+    ctx.moveTo(a.x + a.z, a.y + a.z);
+
+    ctx.lineTo(b.x + b.z, b.y + b.z);
+    ctx.lineTo(c.x + c.z, c.y + c.z);
+    ctx.lineTo(d.x + d.z, d.y + d.z);
+    ctx.lineTo(a.x + a.z, a.y + a.z);
+
+    ctx.fill();
+  }
+                     
+  drawbox(mybox.p1, mybox.p2, mybox.p3, mybox.p4, mybox.f);
+  drawbox(mybox.p1, mybox.p2, mybox.p6, mybox.p5, mybox.f);
+  drawbox(mybox.p1, mybox.p4, mybox.p8, mybox.p5, mybox.f);
+  drawbox(mybox.p5, mybox.p6, mybox.p7, mybox.p8, mybox.f);
+  drawbox(mybox.p1, mybox.p2, mybox.p6, mybox.p5, mybox.f);
+  drawbox(mybox.p1, mybox.p2, mybox.p6, mybox.p5, mybox.f);
+
+  // ctx.beginPath();
+  // ctx.fillStyle = "rgb(255 255 0)";
+  // ctx.moveTo(mybox.p1.x + 400 + mybox.p1.z, mybox.p1.y + 400 + mybox.p1.z);
+
+  // ctx.lineTo(mybox.p2.x + 400 + mybox.p2.z, mybox.p2.y + 400 + mybox.p2.z);
+  // ctx.lineTo(mybox.p3.x + 400 + mybox.p3.z, mybox.p3.y + 400 + mybox.p3.z);
+  // ctx.lineTo(mybox.p4.x + 400 + mybox.p4.z, mybox.p4.y + 400 + mybox.p4.z);
+  // ctx.lineTo(mybox.p1.x + 400 + mybox.p1.z, mybox.p1.y + 400 + mybox.p1.z);
+  // ctx.fill();
+  // ctx.beginPath();
+  // ctx.lineTo(mybox.p5.x + 400 + mybox.p5.z, mybox.p5.y + 400 + mybox.p5.z);
+  // ctx.lineTo(mybox.p6.x + 400 + mybox.p6.z, mybox.p6.y + 400 + mybox.p6.z);
+  // ctx.lineTo(mybox.p7.x + 400 + mybox.p7.z, mybox.p7.y + 400 + mybox.p7.z);
+  // ctx.lineTo(mybox.p8.x + 400 + mybox.p8.z, mybox.p8.y + 400 + mybox.p8.z);
+  // ctx.lineTo(mybox.p5.x + 400 + mybox.p5.z, mybox.p5.y + 400 + mybox.p5.z);
+  // ctx.fill();
+  // ctx.beginPath();
+  // ctx.lineTo(mybox.p1.x + 400 + mybox.p1.z, mybox.p1.y + 400 + mybox.p1.z);
+  // ctx.lineTo(mybox.p5.x + 400 + mybox.p5.z, mybox.p5.y + 400 + mybox.p5.z);
+  // ctx.lineTo(mybox.p1.x + 400 + mybox.p1.z, mybox.p1.y + 400 + mybox.p1.z);
+  // ctx.beginPath();
+  // // ctx.fillStyle = "rgb(0 255 0)";
+  // // ctx.moveTo(mybox.p1.x + 400 + mybox.p1.z, mybox.p1.y + 400 + mybox.p1.z);
+  // // ctx.lineTo(mybox.p5.x + 400 + mybox.p5.z, mybox.p5.y + 400 + mybox.p5.z);
+  // // ctx.lineTo(mybox.p3.x + 400 + mybox.p3.z, mybox.p3.y + 400 + mybox.p3.z);
+  // // ctx.lineTo(mybox.p2.x + 400 + mybox.p2.z, mybox.p2.y + 400 + mybox.p2.z);
+
+  // ctx.fill();
+  // ctx.beginPath();
+  // ctx.fillStyle = "rgb(255 0 0)";
+  // ctx.moveTo(mybox.p2.x + 400 + mybox.p2.z, mybox.p2.y + 400 + mybox.p2.z);
+  // ctx.lineTo(mybox.p6.x + 400 + mybox.p6.z, mybox.p6.y + 400 + mybox.p6.z);
+  // ctx.lineTo(mybox.p6.x + 400 + mybox.p6.z, mybox.p6.y + 400 + mybox.p6.z);
+  // ctx.lineTo(mybox.p3.x + 400 + mybox.p3.z, mybox.p3.y + 400 + mybox.p3.z);
+  // ctx.fill();
+
+  // ctx.beginPath();
+  // ctx.fillStyle = "rgb(255 0 0)";
+  // ctx.moveTo(mybox.p1.x + 400 + mybox.p2.z, mybox.p2.y + 400 + mybox.p2.z);
+  // ctx.lineTo(mybox.p5.x + 400 + mybox.p6.z, mybox.p6.y + 400 + mybox.p6.z);
+  // ctx.lineTo(mybox.p8.x + 400 + mybox.p8.z, mybox.p8.y + 400 + mybox.p8.z);
+  // ctx.lineTo(mybox.p4.x + 400 + mybox.p5.z, mybox.p5.y + 400 + mybox.p5.z);
+  // ctx.lineTo(mybox.p1.x + 400 + mybox.p2.z, mybox.p2.y + 400 + mybox.p2.z);
+
+  // ctx.fill();
+
+  addEventListener("keydown", (event) => {
+    switch (event.key) {
+    }
+  });
+</script>
+<style></style>
+
+<canvas id="canvas" width="800" height="800"> </canvas>

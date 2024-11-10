@@ -1,0 +1,132 @@
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.2/dist/aframe-physics-system.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.4.0/dist/aframe-extras.min.js"></script>
+<script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
+<a-scene>
+  <a-entity>
+    <a-camera look-controls wasd-controls="acceleration:150" position="0 2 40">
+      <a-entity magicleap-controls="hand: left" position="-1.5 0 -3"
+        ><a-cylinder color="#ffaaaa" height="3" radius="0.1" position="0 1 0"
+          ><a-light color="#ffaaaa" intensity="0.3" position="0 0 0"></a-light
+          ><a-cylinder
+            color="#ff0000"
+            height="1.5"
+            radius="0.1"
+            position="0 -2.3 0"
+          ></a-cylinder
+          ><a-cylinder
+            color="#ffffff"
+            height="0.1"
+            radius="0.1"
+            position="0 -1.5 0"
+          ></a-cylinder></a-cylinder
+      ></a-entity>
+      <a-entity magicleap-controls="hand: right" position="1.5 0 -3">
+        <a-cylinder color="#5555ff" height="3" radius="0.1" position="0 1 0"
+          ><a-light
+            color="#aaaaff"
+            intensity="0.3"
+            position="0 0 0"
+          ></a-light></a-cylinder
+        ><a-cylinder
+          color="#0000ff"
+          height="1.5"
+          radius="0.1"
+          position="0 -1.3 0"
+        ></a-cylinder
+        ><a-cylinder
+          color="#ffffff"
+          height="0.1"
+          radius="0.1"
+          position="0 -0.5 0"
+        ></a-cylinder></a-entity
+    ></a-camera>
+  </a-entity>
+  <a-entity
+    id="bigwall"
+    event-set__down="_event: mousedown; material.color: gray"
+    event-set__up="_event: mouseup; material.visible: false"
+    event-set__leave="_event: mouseleave; material.visible: false"
+  >
+    <a-entity id="BeatSaber" position="0 2 -10" scale="5 5 5">
+      <a-text
+        color="#fff"
+        value="Beat"
+        position="-1.3 3 3"
+        scale="5.2 5.2 1"
+      ></a-text>
+      <a-text
+        color="#fff"
+        value="Saber"
+        position="-1.5 2 3"
+        scale="5.2 5.2 1"
+      ></a-text>
+      <a-text
+        color="red"
+        value="Beat"
+        position="-1.3 3 3.1"
+        scale="5 5 1"
+      ></a-text>
+      <a-light color="red" position="0 3 3.1" intensity="0.3"></a-light>
+      <a-text
+        color="#aaaaff"
+        value="Saber"
+        position="-1.5 2 3.1"
+        scale="5 5 1"
+      ></a-text
+      ><a-light color="#aaaaff" intensity="0.1" position="0 2 40"></a-light
+    ></a-entity>
+    <a-light color="#ffffff" intensity="0.3" position="0 2 3.1"></a-light>
+    <a-plane
+      color="#06ddaa"
+      height="50"
+      width="50"
+      position="0 0 2.9"
+    ></a-plane>
+    <a-plane color="#06ddaa" height="50" width="50" position="0 0 2.9"></a-plane
+    ><a-plane
+      color="#06ddaa"
+      height="50"
+      width="50"
+      position="0 0 2.9"
+    ></a-plane
+    ><a-plane
+      color="#06ddaa"
+      height="50"
+      width="50"
+      position="0 0 2.9"
+    ></a-plane>
+    <a-entity position="1 0 -3"
+      ><a-box color="#cc0000" position="0 0 -0.5" scale="1.1 1.1 1.1"></a-box
+      ><a-triangle
+        scale="0.9 0.3 2"
+        color="#fff"
+        position="0 -0.3 0.06"
+      ></a-triangle
+    ></a-entity>
+    <a-entity position="-1 0 -3"
+      ><a-box color="#0000aa" position="0 0 -0.5" scale="1.1 1.1 1.1"></a-box
+      ><a-triangle
+        scale="0.9 0.3 2"
+        color="#fff"
+        position="0 -0.3 0.06"
+      ></a-triangle></a-entity
+    ><a-entity position="0 0 -10"
+      ><a-box color="#cc0000" position="0 0 -0.5" scale="1.1 1.1 1.1"></a-box
+      ><a-triangle
+        scale="0.9 0.3 2"
+        color="#fff"
+        position="0 -0.3 0.06"
+      ></a-triangle></a-entity
+    ><a-entity position="-2 0 -15"
+      ><a-box color="#cc0000" position="0 0 -0.5" scale="1.1 1.1 1.1"></a-box
+      ><a-triangle
+        scale="0.9 0.3 2"
+        color="#fff"
+        position="0 -0.3 0.06"
+      ></a-triangle
+    ></a-entity>
+    <a-light color="#ffffff" intensity="0.1" position="0 0 3"></a-light
+  ></a-entity>
+</a-scene>

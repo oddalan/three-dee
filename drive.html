@@ -1,0 +1,52 @@
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.2/dist/aframe-physics-system.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.4.0/dist/aframe-extras.min.js"></script>
+<script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
+<script type="module">
+  let z = 0;
+  (function loop() {
+    // put code here
+    el.setAttribute("animation__001", {
+      property: "position",
+      to: { x: 1, y: 1, z: z },
+      startEvents: "startanim001",
+    });
+    z + 0.1;
+  });
+
+  requestAnimationFrame(loop);
+
+  loop();
+</script>
+<a-scene>
+  <a-entity dynamic-body position="0 0 -3"
+    ><a-box scale="5 0.5 10" color="red"></a-box
+    ><a-cylinder
+      animation="property: rotation; to: 180 180 90; loop: true; dur: 5000"
+      position="0 -0.2 -4"
+      color="green"
+      scale="-0.2 2 0.2"
+      rotation="-90 180 90"
+      segments-radial="6"
+    ></a-cylinder
+    ><a-cylinder
+      animation="property: rotation; to: 180 180 90; loop: true; dur: 5000"
+      position="0 -0.2 4"
+      color="green"
+      open-ended="true"
+      material="side: double"
+      scale="-0.2 2 0.2"
+      rotation="-90 180 90"
+      segments-radial="6"
+    ></a-cylinder
+  ></a-entity>
+  <a-plane
+    static-body
+    position="0 -3 0"
+    rotation="-90 0  0"
+    width="100"
+    height="100"
+  ></a-plane>
+  <a-camera position="0 0 0"><a-cursor></a-cursor></a-camera>
+</a-scene>

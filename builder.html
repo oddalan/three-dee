@@ -1,0 +1,46 @@
+<script type="module">
+  const canvas = document.getElementById("tutorial");
+  const ctx = canvas.getContext("2d");
+
+  const boxes = [
+    {
+      x: 0,
+      y: 0,
+      width: 50,
+      height: 50,
+    },
+  ];
+
+  function loop(now) {
+    requestAnimationFrame(loop);
+    console.log(boxes[0].x, boxes[0].y, boxes[0].width, boxes[0].height);
+    // ctx.clearRect(0, 0, 700, 700);
+    shouldboxmove();
+    draw();
+  }
+
+  function draw() {
+    ctx.fillStyle = "rgb(255 255 255)";
+    ctx.fillRect(boxes[0].x, boxes[0].y, boxes[0].width, boxes[0].height);
+  }
+
+  requestAnimationFrame(loop);
+
+  shouldboxmove();
+
+  function shouldboxmove(e) {
+    addEventListener("mousedown", (event) => {
+      draw();
+    });
+    addEventListener("mouseup", (event) => {
+      boxes[0].x = e.clientX - 50;
+      boxes[0].y = e.clientY - 50;
+      boxes[0].width = 50;
+      boxes[0].height = 50;
+    });
+  }
+</script>
+
+<style></style>
+
+<canvas id="tutorial" width="700" height="700"> </canvas>

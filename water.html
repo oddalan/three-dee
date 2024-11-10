@@ -1,0 +1,36 @@
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.2/dist/aframe-physics-system.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.4.0/dist/aframe-extras.min.js"></script>
+<script>
+  AFRAME.registerComponent("water", {
+    schema: {
+      width: { default: "10" },
+      depth: { default: "10" },
+      height: { default: "0.1" },
+    },
+
+    init: function () {
+      let defaultw = el.getAttribute("material").width;
+      let defaultd = el.getAttribute("material").depth;
+      let defaulth = el.getAttribute("material").height;
+
+      el.setAttribute("width", defaultw);
+      el.setAttribute("depth", defaultd);
+      el.setAttribute("height", defaulth);
+    },
+  });
+</script>
+<a-scene>
+  <a-plane
+    static-body
+    height="100"
+    color="#aaffaa"
+    width="100"
+    rotation="-90 0 0"
+    position="0 -3 0"
+    shadow="receive: true"
+  ></a-plane>
+  <a-box rotation="-46 0 0" position="0 0 -5" dynamic-body></a-box
+  ><a-cylinder color="#111111" segments-radial="2"></a-cylinder>
+</a-scene>

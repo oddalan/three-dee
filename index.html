@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<title>3d</title>
+
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.2/dist/aframe-physics-system.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.4.0/dist/aframe-extras.min.js"></script>
+<script type="module">
+  let isGrabbed = false;
+
+  addEventListener("keypress", (event) => {
+    switch (event.key) {
+      case "e": {
+        isGrabbed = !isGrabbed;
+
+        if (isGrabbed) {
+          leftHand.emit("grab");
+          rightHand.emit("grab");
+        } else {
+          leftHand.emit("release");
+          rightHand.emit("release");
+          bigbox.emit("release");
+        }
+
+        break;
+      }
+
+      case "q": {
+        console.log("punch", leftHand);
+        leftHand.emit("punch");
+        break;
+      }
+
+      case "o": {
+        console.log("punch", leftHand);
+        leftHand.emit("punch");
+        break;
+      }
+
+      case "j": {
+        cam.emit("lookleft");
+        break;
+      }
+
+    }
+  });
+</script>
+<script>AFRAME.registerComponent('hello-world', {
+  init: function () {
+    console.log('Hello, World!');
+  }
+});</script>
+<script>AFRAME.registerComponent('hi', {
+  init: function () {
+        this.el.addEventListener("keypress", (event) => {
+          switch (event.key) {
+            case "p": { console.log('Hello, World!');}
+            case "x": { console.log('Hello, World!');}
+          }
+        })
+    console.log('Hello, World!');
+  }
+});</script>
+
+
+<style></style>
+
+<h1>loading ... please wait this might take a while.</h1>
+
+<a-scene>
+  <a-entity id="Jeep" dynamic-body position="-10 0.8 -9">
+    <a-box position="0 0 0" color="gray" width="17" depth="8"></a-box>
+    <a-box position="0 1 0" color="green" width="17" depth="8"></a-box>
+    <a-plane position="0 1.6 0" color="gray" width="16" height="7" rotation="90 0 0" material="side: double"></a-plane>
+    <a-entity rotation="0 0 0" id="seat1" position="0 1 0"></a-entity>
+    <a-box color="gray" position="0 2 2" height="0.6" width="1.8" depth="1.8"></a-box>
+    <a-box color="gray" position="0 3 2.5" height="0.6" width="1.8" depth="1.8" rotation="90 0 0"></a-box>
+  </a-entity>
+  <a-sound src="src: url(hello-world.m4a)" autoplay="true" position="0 0 0"></a-sound>
+  <a-plane dynamic-body hi></a-plane>
+  <a-entity  dynamic-body hello-world position="0 1 0"><a-box color="red"></a-box></a-entity>
+  <a-box
+    dynamic-body
+    position="0 0 -3"
+    color="#4CC3D9"
+    width="8"
+    height="5"
+    depth="0.5"
+  ></a-box>
+  <a-box
+    dynamic-body
+    position="-1 0.5 -5"
+    rotation="0 45 0"
+    color="orange"
+  ></a-box>
+  <a-sphere
+    dynamic-body
+    position="0 1.25 -5"
+    radius="1.25"
+    color="blue"
+  ></a-sphere>
+  <a-cylinder
+    dynamic-body
+    position="1 4.9.75 -3"
+    radius="0.4"
+    height="10"
+    color="purple"
+    fog="type: linear; color: #AAA"
+  ></a-cylinder>
+  <a-cone
+    dynamic-body
+    color="tan"
+    radius-bottom="2"
+    radius-top="5"
+    position="50 10.25 -5"
+  ></a-cone>
+  <a-plane
+    position="0 0 -4"
+    rotation="-90 0 0"
+    width="100"
+    height="100"
+    color="#7BC8A4"
+    static-body
+  ></a-plane>
+  <a-sky color="aqua"></a-sky>
+  <a-cylinder
+    dynamic-body
+    position="10 10 -10"
+    radius="5"
+    height="1.5"
+    color="black"
+  ></a-cylinder>
+  <a-cone color="red" position="10 1 -10" static-body></a-cone>
+  <a-light
+    position="10 10 -10"
+    radius="0.5"
+    height="1.5"
+    color="yellow"
+  ></a-light>
+  <a-light
+    position="10 10 10"
+    radius="0.5"
+    height="1.5"
+    color="black"
+    castShadow:true;
+  ></a-light>
+  <a-ring
+    position="10 10.5 1"
+    radius="0.5"
+    height="1.5"
+    color="blue"
+    dynamic-body
+    rotation="90 0 0"
+  ></a-ring>
+  <a-ring
+    position="10 10 1"
+    radius="0.5"
+    height="1.5"
+    color="blue"
+    dynamic-body
+    rotation="0 0 0"
+  ></a-ring>
+  <a-light
+    position="10 10 1"
+    radius="0.5"
+    height="1.5"
+    color="blue"
+    castShadow:true;
+  ></a-light>
+  <a-text value="ayplay" color="blue"></a-text>
+  <a-ring position="10 5 1" radius="10" height="2.5" color="purple" dynamic-body></a-ring>
+  <a-triangle
+    rotation="-90 10 5"
+    color="red"
+    height="0"
+  ></a-triangle>
+  <a-entity id="cam">
+    <a-camera
+      look-controls
+      wasd-controls="acceleration:50"
+      position="0 6 10"
+      material="color: red"
+      light="type: point; intensity: 3.0; color: yellow castShadow:true; castShadow:true;"
+      animation__lookleft="property: rotation; dur: 1000; to: -0.5 -1.5 -6; startEvents: lookleft"
+    >
+      <a-box
+      static-body
+        id="leftHand"
+        position="-3.5 -1.5 -4"
+        rotation="0 90 0"
+        color="tan"
+        animation__grab="property: position; dur: 1000; to: -0.5 -1.5 -6; startEvents: grab"
+        animation__release="property: position; dur: 1000; to: -3.5 -1.5 -4; startEvents: release"
+        animation__punch="property: position; dur: 1000; to: -0.5 -1.5 -6; startEvents: punch"
+        ><a-light color="red" position="0 0 0"></a-light>
+        <a-cylinder color="black" height="1" radius="0.1" rotation="60 80 1"  position="-0.5 -0.5 -0.3"></a-cylinder>
+       
+      </a-box>
+      <a-box
+      static-body
+        id="rightHand"
+        position="3.5 -1.5 -4"
+        rotation="0 90 0"
+        color="tan"
+        animation__grab="property: position; dur: 1000; to: 0.5 -1.5 -6; startEvents: grab"
+        animation__release="property: position; dur: 1000; to: 3.5 -1.5 -4; startEvents: release"
+        ><a-light color="red" position="0 0 0"></a-light>
+        <a-cylinder color="black" height="1" radius="0.1" rotation="60 -80 1"  position="-0.5 -0.5 0.3"></a-cylinder>
+      </a-box>
+      <a-box position="2 2 2" color="red"></a-box>
+      <a-cursor static-body></a-cursor>
+    </a-camera>
+  </a-entity dynamic-body>
+  <a-cylinder color="green" open-ended="true"></a-cylinder>
+  <a-entity dynamic-body>
+  <a-plane
+    position="5 5 5"
+    rotation="-0 0 0"
+    width="4"
+    height="2"
+    color="gray"
+  ></a-plane>
+  <a-plane
+    position="5 5 5"
+    rotation="180 0 0"
+    width="4"
+    height="2"
+    color="gray"
+  ></a-plane>
+  <a-text
+    value="Alan"
+    position="3 5.2 5.00000001"
+    rotation="-0 0 0"
+    width="40"
+    height="25"
+    color="red"
+  ></a-text>
+</a-entity>
+  <a-sphere position="500 100.25 -500" color="gray" radius="90"></a-sphere>
+  <a-sphere position="50000 15000 -50" color="yellow" radius="100"></a-sphere>
+  <a-entity gltf-model="#cityModel" modify-materials></a-entity>
+  <a-sphere
+    position="-1 1.6 -5"
+    animation="property: position; to: 1 8 -10; dur: 2000; easing: linear; loop: 8"
+    color="tomato"
+  ></a-sphere>
+  <a-entity
+    id="moveing"
+    position="-1 1.6 -5"
+    animation="property: position; to: 1 8 -10; dur: 2000; easing: linear; loop: 8"
+    geometry="primitive: plane"
+  >
+    <a-sphere position="5 0 0" color="mediumseagreen"></a-sphere>
+    <a-entity
+      rotation="0 0 0"
+      animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"
+    >
+      <a-sphere
+        position="5 0 0"
+        color="mediumseagreen"
+        animation="property: position; to: 0 50 0; loop: true; dur: 10000"
+      ></a-sphere>
+    </a-entity>
+  </a-entity>
+  <script id="link" type="text/html"></script>
+  <a-box grabbable></a-box>
+  <a-cylinder
+    color="green"
+    theta-start="50"
+    theta-length="250"
+    side="double"
+    shadow="receive: true"
+  ></a-cylinder>
+  <a-cone
+    color="white"
+    radius-bottom="0.5"
+    radius-top="0"
+    position="5 1 1"
+    shadow="receive: true"
+  ></a-cone>
+  <a-cone color="tomato" radius-bottom="4" radius-top="0.2"></a-cone>
+  <a-tetrahedron color="#FF926B" radius="5"></a-tetrahedron>
+  <a-entity
+    class="link"
+    geometry="primitive: plane; height: 1; width: 1"
+    material="shader: flat; src: #cubes-thumb"
+    position="5 7 0"
+  ></a-entity>
+  <a-cone
+    color="black"
+    radius-bottom="0.5"
+    radius-top="0.2"
+    position="5 8 1"
+  ></a-cone>
+  <a-torus-knot
+    color="blue"
+    arc="180"
+    p="0.6"
+    q="2"
+    radius="5"
+    radius-tubular="0.1"
+  ></a-torus-knot>
+  <a-box
+    color="white"
+    depth="6.5"
+    height="10"
+    width="100"
+    position="100 2 0"
+  ></a-box>
+  <a-box
+    color="green"
+    depth="6.5"
+    height="10"
+    width="100"
+    position="100 2 8"
+  ></a-box>
+  <a-torus
+    color="black"
+    arc="270000000000000000000"
+    radius="600"
+    radius-tubular="0.5"
+  ></a-torus>
+  <a-entity
+    event-set__${id}="_event: ${eventName}; ${someProperty}: ${toValue}"
+    event-set__makevisible="_event: mouseenter; visible: true"
+    ><a-box color="tomato" depth="2" height="4" width="0.5"></a-box>
+  </a-entity>
+  <a-entity
+    id="bigbox"
+    animation__release="property: position; dur: 1000; to: 8.5 -1.5 -4; startEvents: release"
+  >
+    <a-box
+      color="red"
+      depth="6.5"
+      height="10"
+      width="10"
+      position="10 2 8"
+    ></a-box>
+  </a-entity>
+  <a-text
+    value="qwertyuiop
+      asdfghjkl
+         zxcvbnm"
+    position="1 2 8"
+    color="gray"
+  ></a-text>
+  <a-entity
+    id="myBox"
+    anchored="persistent: true"
+    geometry="primitive: box"
+    material="color: red"
+    position="1 2 5"
+  ></a-entity>
+  <a-entity
+    event-set__makevisible="_event: mouseenter; visible: true"
+  ></a-entity>
+  <a-box
+    position="-1 0.5 -3"
+    rotation="0 45 0"
+    color="#4CC3D9"
+    event-set__enter="_event: mouseenter; color: #8FF7FF"
+    event-set__leave="_event: mouseleave; color: #4CC3D9"
+  ></a-box>
+  <a-entity><a-box color="red" position="4 3 2"> </a-box></a-entity>
+  <a-box
+    position="5 0.5 -3"
+    rotation="0 45 0"
+    color="#4CC3D1"
+    event-set__enter="_event: mouseenter; color: #8FF7FF"
+    event-set__leave="_event: mouseleave; color: #4CC3D9"
+  ></a-box>
+  <a-entity>
+    <a-cylinder
+      color="black"
+      material="side: double"
+      open-ended="true"
+      rotation="90 0 0"
+      position="5 10 5"
+      depth="1000"
+    ></a-cylinder>
+  </a-entity>
+  <a-box
+    color="blue"
+    postion="1 2 3"
+    light="type: point; intensity: 3.0; color: blue castShadow:true;"
+  ></a-box>
+  <a-entity>
+    <a-box postion="1 12 10" height="1"></a-box>
+  </a-entity>
+  <a-entity position="5 8 5">
+    <a-cylinder
+      color="green"
+      material="side: double"
+      open-ended="true"
+      rotation="90 0 0"
+      depth="1000"
+    ></a-cylinder>
+    <a-ring color="green" position="0 0 0.5" material="side: double"></a-ring>
+    <a-circle
+      color="green"
+      radius="1"
+      material="side: double"
+      position="0 0 -0.5"
+    ></a-circle>
+    <a-circle
+      color="black"
+      radius="1"
+      material="side: double"
+      position="0 0 -0.4"
+      shadow="receive: true"
+    ></a-circle>
+  </a-entity>
+  <a-entity dynamic-body position="-10 10 0"><a-box dynamic-body position="0 0 0" color="red"></a-box><a-box dynamic-body position="0 0.3 0" color="red"></a-box></a-entity>
+</a-scene>

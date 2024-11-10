@@ -1,0 +1,91 @@
+<html class="foo">
+  <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+  <script src="https://threejs.org/examples/js/deprecated/Geometry.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.2/dist/aframe-physics-system.min.js"></script>
+
+  <script type="module">
+    function createSphere() {
+      var sceneEl = document.querySelector("a-scene");
+      var sphereEl = document.createElement("a-sphere");
+
+      var x = Math.random() - 0.5;
+      var y = Math.random() - 0.5;
+      var z = Math.random() - 0.5;
+
+      sphereEl.setAttribute(
+        "dynamic-body",
+        "shape: sphere; sphereRadius: 0.25"
+      );
+      sphereEl.setAttribute("position", `${x} ${y} ${z}`);
+      sphereEl.setAttribute("color", "#bbbbff");
+      sphereEl.setAttribute("scale", "0.5 0.5 0.5");
+      sceneEl.appendChild(sphereEl);
+
+      setTimeout(() => {
+        sphereEl.remove();
+      }, 120000);
+    }
+
+    let prevTime = performance.now();
+    let sphereInterval = 100;
+    let timeSinceLastSphere = 0;
+
+    function loop(nextTime) {
+      requestAnimationFrame(loop);
+
+      let delta = nextTime - prevTime;
+      prevTime = nextTime;
+
+      if (timeSinceLastSphere > sphereInterval) {
+        createSphere();
+        timeSinceLastSphere = 0;
+      } else {
+        timeSinceLastSphere += delta;
+      }
+    }
+
+    requestAnimationFrame(loop);
+  </script>
+  <a-scene>
+    <a-assets>
+      <img id="sky" src="Untitled 3.webp" />
+    </a-assets>
+    <a-sky src="#sky"></a-sky>
+    <!-- <a-box color="red"></a-box> -->
+    <a-entity position="0 -30 0">
+      <a-box static-body depth="20" width="20" color="aqua"></a-box>
+      <a-box
+        static-body
+        position="0 5 -10"
+        height="10"
+        width="20"
+        color="aqua"
+      ></a-box>
+      <a-box
+        static-body
+        position="0 5 10"
+        height="10"
+        width="20"
+        color="aqua"
+      ></a-box>
+      <a-box
+        static-body
+        position="-10 5 0"
+        depth="20"
+        height="10"
+        color="aqua"
+      ></a-box>
+      <a-box
+        static-body
+        position="10 5 0"
+        depth="20"
+        height="10"
+        color="aqua"
+      ></a-box>
+    </a-entity>
+    <a-camera position="0 -28 0"><a-box static-body></a-box></a-camera>
+    <!--<a-camera position="0 0 0"></a-camera>-->
+    <a-cylinder radius="3" height="5" color="gray"></a-cylinder>
+  </a-scene>
+</html>

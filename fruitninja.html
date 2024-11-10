@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<title>Fruit Ninja</title>
+
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.2/dist/aframe-physics-system.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.4.0/dist/aframe-extras.min.js"></script>
+<script>
+  AFRAME.registerGeometry("mything", {
+    schema: {
+      depth: { default: 4, min: 0 },
+      height: { default: 1, min: 0 },
+      width: { default: 1, min: 0 },
+      segmentsHeight: { default: 1, min: 1, max: 20, type: "int" },
+      segmentsWidth: { default: 1, min: 5, max: 20, type: "int" },
+      segmentsDepth: { default: 1, min: 8, max: 20, type: "int" },
+    },
+
+    init: function (data) {
+      this.geometry = new THREE.BoxGeometry(data.depth, data.radius);
+    },
+  });
+</script>
+<script>
+  AFRAME.registerComponent("change-color-on-collide", {
+    schema: {
+      color: { default: "red" },
+    },
+
+    init: function () {
+      var data = this.data;
+      var el = this.el; // <a-box>
+      var defaultColor = el.getAttribute("material").color;
+
+      el.addEventListener("collide", function () {
+        el.setAttribute("color", data.color);
+      });
+    },
+  });
+</script>
+<script>
+  AFRAME.registerComponent("x-button-listener", {
+    init: function () {
+      var el = this.el;
+      el.addEventListener("xbuttondown", function (evt) {
+        el.setAttribute("visible", !el.getAttribute("visible"));
+      });
+    },
+  });
+</script>
+<script>
+  AFRAME.registerComponent("a-button-listener", {
+    init: function () {
+      var el = this.el;
+      el.addEventListener("abuttondown", function (evt) {
+        el.setAttribute("visible", !el.getAttribute("visible"));
+      });
+    },
+  });
+</script>
+<script>
+  AFRAME.registerComponent("y-button-listener", {
+    init: function () {
+      var el = this.el;
+      el.addEventListener("ybuttondown", function (evt) {
+        el.setAttribute("visible", !el.getAttribute("visible"));
+      });
+    },
+  });
+</script>
+<script>
+  AFRAME.registerComponent("b-button-listener", {
+    init: function () {
+      var el = this.el;
+      el.addEventListener("bbuttondown", function (evt) {
+        el.setAttribute("visible", !el.getAttribute("visible"));
+      });
+    },
+  });
+</script>
+<script>
+  AFRAME.registerComponent("red", {
+    schema: {},
+  });
+</script>
+<script>
+  AFRAME.registerComponent("follow", {
+    schema: {
+      target: { type: "selector" },
+      speed: { type: "number" },
+    },
+  });
+</script>
+
+<a-scene>
+  <a-box
+    follow="target: #ball; speed: 1"
+    color="#FF6B6B"
+    position="3 0 -5"
+  ></a-box>
+  <a-entity asdw-controls="acceleration:100">
+    <a-camera
+      look-controls
+      asdw-controls="acceleration:0"
+      gamepad-controls="acceleration:50"
+      position="0 7 4"
+      geometry="primitive: box; width: 1; height: 2; depth: 1"
+    >
+      <a-entity
+        tracked-controls="controller: 0; idPrefix: OpenVR"
+        laser-controls="hand: left"
+        xbox-touch-controls
+        x-button-listener
+        raycaster="far: 2"
+        laser-controls
+        oculus-touch-controls
+        x-button-listener
+      >
+        <a-box
+          id="hand1"
+          position="-1 -1 -1.8"
+          width="0.5"
+          height="0.5"
+          depth="0.5"
+          color="#ffccaa"
+        ></a-box>
+        <a-cylinder
+          height="2"
+          obb-collider="showColliders: true"
+          position="1 0 -1.8"
+          radius="0.1"
+          color="#aaaaaa"
+        ></a-cylinder>
+      </a-entity>
+      <a-entity
+        tracked-controls="controller: 1; idPrefix: OpenVR"
+        laser-controls="hand: right"
+        xbox-touch-controls
+        x-button-listener
+        raycaster="far: 2"
+        laser-controls
+        oculus-touch-controls
+        x-button-listener
+      >
+        <a-box
+          color="#ffccaa"
+          id="hand2"
+          position="1 -1 -1.8"
+          width="0.5"
+          height="0.5"
+          depth="0.5"
+        ></a-box>
+        <a-cylinder
+          obb-collider="showColliders: true"
+          height="2"
+          position="-1 0 -1.8"
+          radius="0.1"
+          color="#aaaaaa"
+        ></a-cylinder>
+      </a-entity>
+    </a-camera>
+  </a-entity>
+  <a-plane
+    color="gray"
+    width="10"
+    height="10"
+    rotation="90 0 0"
+    material="side: double"
+    position="0 3 0"
+    static-body
+  ></a-plane>
+  <a-plane
+    color="tan"
+    width="10"
+    height="10"
+    rotation="90 0 0"
+    material="side: double"
+    position="0 13 0"
+    static-body
+  ></a-plane>
+  <a-plane
+    color="gray"
+    width="10"
+    height="10"
+    rotation="90 0 0"
+    material="side: double"
+    position="0 4 0"
+  ></a-plane>
+  <a-plane
+    id="wall2"
+    color="tan"
+    width="10"
+    height="10"
+    rotation="0 90 0"
+    material="side: double"
+    position="-5 8 0"
+    static-body
+  ></a-plane>
+  <a-plane
+    id="wall3"
+    color="tan"
+    width="10"
+    height="10"
+    rotation="0 0 0"
+    material="side: double"
+    position="0 8 -5"
+    static-body
+  ></a-plane>
+  <a-plane
+    id="wall4"
+    color="tan"
+    width="10"
+    height="10"
+    rotation="0 0 0"
+    material="side: double"
+    position="0 8 5"
+    static-body
+  ></a-plane>
+  <a-plane
+    color="tan"
+    id="wall5"
+    width="10"
+    height="10"
+    rotation="0 90 0"
+    material="side: double"
+    position="5 8 0"
+    static-body
+  ></a-plane>
+  <a-entity id="ball" position="-1 3 -1.8">
+    <a-sphere
+      position="0 0 0"
+      color="green"
+      rotation="90 0 0"
+      dynamic-body
+      radius="0.4"
+    ></a-sphere>
+  </a-entity>
+  <a-entity id="ball2" position="-1 3 -1.8">
+    <a-sphere
+      position="0 0 0"
+      color="red"
+      rotation="90 0 0"
+      dynamic-body
+      radius="0.2"
+    ></a-sphere>
+  </a-entity>
+  <a-entity id="ball3" position="-1 4 -1.8">
+    <a-sphere
+      position="0 0 0"
+      color="#ff9900"
+      rotation="90 0 0"
+      dynamic-body
+      radius="0.2"
+    ></a-sphere>
+  </a-entity>
+  <a-text id="scoreText" color="black" value="0" position="0 8 -4.5"></a-text>
+  <a-entity id="box" position="0 6 0" visible="false">
+    <a-box
+      id="coolbox"
+      visible="false"
+      color="ffffff"
+      width="3"
+      height="1.8"
+      depth="0.4"
+    ></a-box>
+  </a-entity>
+  <a-entity position="0 6 0"><a-box></a-box></a-entity>
+</a-scene>
+
+<script type="module">
+  function getRandomInt(min, max) {
+    return min + Math.floor((max - min + 1) * Math.random());
+  }
+
+  console.log(getRandomInt(-50, 50));
+
+  ball.addEventListener("body-loaded", (event) => {
+    setInterval(() => {
+      event.detail.body.applyImpulse(
+        new CANNON.Vec3(getRandomInt(-50, 50), 50, getRandomInt(-50, 50)),
+        new CANNON.Vec3().copy(event.target.getAttribute("position"))
+      );
+    }, getRandomInt(900, 5000));
+  });
+  ball2.addEventListener("body-loaded", (event) => {
+    setInterval(() => {
+      event.detail.body.applyImpulse(
+        new CANNON.Vec3(getRandomInt(-50, 50), 50, getRandomInt(-50, 50)),
+        new CANNON.Vec3().copy(event.target.getAttribute("position"))
+      );
+    }, getRandomInt(900, 5000));
+  });
+  ball3.addEventListener("body-loaded", (event) => {
+    setInterval(() => {
+      event.detail.body.applyImpulse(
+        new CANNON.Vec3(getRandomInt(-50, 50), 50, getRandomInt(-50, 50)),
+        new CANNON.Vec3().copy(event.target.getAttribute("position"))
+      );
+    }, getRandomInt(900, 5000));
+  });
+
+  let score = 0;
+
+  ball.addEventListener("collide", (event) => {
+    console.log(event.detail.target);
+    console.log(event.detail.body);
+
+    console.log(event.detail.body.id === hand1.body.id);
+
+    if (
+      event.detail.body.id === hand1.body.id ||
+      event.detail.body.id === hand2.body.id
+    ) {
+      score++;
+      scoreText.setAttribute("value", score);
+    }
+
+    if (
+      coolbox.getAttribute("position") === hand1.getAttribute("position") ||
+      coolbox.getAttribute("position") === hand2.getAttribute("position")
+    ) {
+      score++;
+      scoreText.setAttribute("value", score);
+    }
+  });
+  addEventListener("keypress", (event) => {
+    switch (event.key) {
+      case "u": {
+        {
+          {
+            box.setAttribute("visible", true);
+            break;
+          }
+        }
+      }
+      case "b": {
+        {
+          {
+            box.setAttribute("visible", false);
+            break;
+          }
+        }
+      }
+      case "r": {
+        {
+          {
+            if (number1 + number2 === 4) {
+              score++;
+              scoreText.setAttribute("value", score);
+            }
+          }
+        }
+      }
+    }
+  });
+  if (
+    hand1.getAttribute("obb-collider") === ball ||
+    hand2.getAttribute("position") === hand2.getAttribute("position")
+  ) {
+    score++;
+    scoreText.setAttribute("value", score);
+  }
+  if (1 + 1 === 2) {
+    score++;
+    scoreText.setAttribute("value", score);
+  }
+  if (
+    document.querySelector("ball").addEventListener("collide", function (evt) {
+      console.log("This A-Frame entity collided with another entity!");
+    })
+  );
+
+  let number2 = 1 + 1;
+</script>

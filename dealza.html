@@ -1,0 +1,85 @@
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.2/dist/aframe-physics-system.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.4.0/dist/aframe-extras.min.js"></script>
+<script>
+  AFRAME.registerComponent("hot", {
+    schema: {
+      message: { type: "string", default: "0" },
+    },
+    // ...
+  });
+</script>
+<script>
+  AFRAME.registerComponent("cold", {
+    schema: {
+      message: { type: "string", default: "0" },
+    },
+    // ...
+  });
+</script>
+<script type="module">
+  console.log("test ");
+  // {
+  //   thing1.setAttribute(animation)(
+  //     ("property"(rotation),
+  //     "to"(head.getAttribute("rotation")),
+  //     "dur"(2000),
+  //     "loop"(true))
+  //   );
+  // }
+
+  //el.setAttribute('rotation', {x: 15, y: 30, z: 90});
+  //{x: 15, y: 30, z: 90}
+
+  addEventListener("keypress", (event) => {
+    switch (event.key) {
+      case "o": {
+        {
+          {
+            head.setAttribute("position"),
+              head.setAttribute("position") + box.getAttribute("position");
+          }
+        }
+      }
+    } // put code here
+    thing1.setAttribute("rotation", head.getAttribute("rotation"));
+  });
+
+  (function loop() {
+    // put code here
+    thing1.setAttribute("rotation", head.getAttribute("rotation"));
+  });
+
+  requestAnimationFrame(loop);
+
+  loop();
+
+  let hot = 60;
+  let cold = 10;
+  let temp = hot - cold;
+</script>
+<script>
+  AFRAME.registerComponent("foo", {
+    init: function () {
+      this.el.addEventListener("collide", function (e) {
+        console.log("Player has collided with ", e.detail.body.el);
+      });
+    },
+  });
+</script>
+
+<a-scene>
+  <a-sky id="sky1" color="#77ccff"></a-sky>
+  <a-box
+    color="#aaffaa"
+    position="0 -3 -4"
+    height="100"
+    width="100"
+    rotation="-90 0 0"
+  ></a-box
+  ><a-entity id="thing1"><a-plane position="0 0 -4"></a-plane></a-entity
+  ><a-camera id="head" wasd-controls="acceleration:0"
+    ><a-sphere foo id="radius" color="yellow" radius="5"></a-sphere
+    ><a-box id="box" position="0 0 -4"></a-box></a-camera
+></a-scene>

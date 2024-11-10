@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<title>Car</title>
+
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.2/dist/aframe-physics-system.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.4.0/dist/aframe-extras.min.js"></script>
+<script type="module">
+  let isGrabbed = false;
+
+  addEventListener("keypress", (event) => {
+    switch (event.key) {
+      case "w": {
+        console.log("gas, car");
+        box.emit("gas");
+        break;
+      }
+
+      case "s": {
+        console.log("break, car");
+        car.emit("break");
+        break;
+      }
+
+      case "a": {
+      }
+    }
+  });
+</script>
+<script>
+  AFRAME.registerComponent("gas", {
+    schema: {
+      event: { type: "acceleration", default: "0" },
+      message: { type: "acceleration", default: "0" },
+
+      update: function () {
+        var data = this.data; // Component property values.
+        var el = this.el; // Reference to the component's entity.
+
+        if (data.event) {
+          // This will log the `message` when the entity emits the `event`.
+          el.addEventListener("keypress", (event) => {
+            console.log(data.message);
+          });
+        } else {
+          // `event` not specified, just log the message.
+          console.log(data.message);
+        }
+      },
+    },
+  });
+</script>
+
+<a-scene
+  ><a-sky color="aqua"></a-sky>
+  <a-box id="box" color="gray" position="-1 -1 -1"></a-box>
+  <a-box color="red" position="5 0 -5"></a-box>
+  <a-entity dynamic-body id="car" position="0 0 -5"
+    ><a-entity
+      ><a-box
+        id="box"
+        color="gray"
+        animation__color="property: material.color"
+        position="0 0 0"
+      ></a-box
+    ></a-entity>
+  </a-entity>
+  <a-plane
+    color="gray"
+    static-body
+    height="100"
+    width="100"
+    rotation="-90 0 0"
+    position="0 -1 0"
+  ></a-plane>
+  <a-entity asdw-controls="acceleration:100">
+    <a-camera
+      gas="acceleration:00"
+      look-controls
+      position="0 1 1"
+      asdw-controls="acceleration:0"
+    >
+      <a-box static-body></a-box>
+    </a-camera>
+  </a-entity>
+  <a-entity
+    id="leftHand"
+    static-body
+    hand-controls="hand: left; handModelStyle: lowPoly; color: #ffcccc"
+  ></a-entity>
+  <a-entity
+    id="rightHand"
+    static-body
+    hand-controls="hand: right; handModelStyle: lowPoly; color: #ffcccc"
+  ></a-entity>
+  <a-entity dynamic-body position="0 0 -3"
+    ><a-sphere color="white" radius="0.5" position="0 0 0"></a-sphere>
+    <a-sphere color="white" radius="0.5" position="0 0.8 0"></a-sphere>
+    <a-sphere color="white" radius="0.5" position="0 1.6 0"></a-sphere>
+    <a-cone
+      position="0 1.5 0.5"
+      color="tomato"
+      radius-bottom="0.1"
+      radius-top="0"
+      rotation="90 0 0"
+    ></a-cone>
+    <a-sphere
+      color="gray"
+      radius="0.1"
+      position="0.2 1.8 0.3"
+      rotation="0 0 0"
+    ></a-sphere>
+    <a-sphere
+      color="gray"
+      radius="0.1"
+      position="-0.2 1.8 0.3"
+      rotation="0 0 0"
+    ></a-sphere>
+    <a-plane
+      height="0.1"
+      width="0.1"
+      position="0 -0.5 0"
+      rotation="90 0 0"
+    ></a-plane>
+  </a-entity>
+  <a-entity dynamic-body position="2 0 -3"
+    ><a-sphere color="white" radius="0.5" position="0 0 0"></a-sphere>
+    <a-sphere color="white" radius="0.5" position="0 0.8 0"></a-sphere>
+    <a-sphere color="white" radius="0.5" position="0 1.6 0"></a-sphere>
+    <a-cone
+      position="0 1.5 0.5"
+      color="tomato"
+      radius-bottom="0.1"
+      radius-top="0"
+      rotation="90 0 0"
+    ></a-cone>
+    <a-sphere
+      color="gray"
+      radius="0.1"
+      position="0.2 1.8 0.3"
+      rotation="0 0 0"
+    ></a-sphere>
+    <a-sphere
+      color="gray"
+      radius="0.1"
+      position="-0.2 1.8 0.3"
+      rotation="0 0 0"
+    ></a-sphere>
+    <a-plane
+      height="0.1"
+      width="0.1"
+      position="0 -0.5 0"
+      rotation="90 0 0"
+    ></a-plane>
+  </a-entity>
+  <a-plane
+    material="side: double"
+    color="white"
+    height="1000"
+    width="1000"
+    rotation="-90 0 0"
+    position="0 100 0"
+  ></a-plane>
+  <a-sphere
+    dynamic-body
+    color="white"
+    radius="0.3"
+    position="0 100 0"
+  ></a-sphere
+  ><a-sphere dynamic-body color="white" radius="0.5" position="0 0 0"></a-sphere
+  ><a-sphere
+    dynamic-body
+    color="white"
+    radius="0.1"
+    position="0 150 0"
+  ></a-sphere
+  ><a-sphere
+    dynamic-body
+    color="white"
+    radius="0.5"
+    position="4 120 2"
+  ></a-sphere
+  ><a-sphere
+    dynamic-body
+    color="white"
+    radius="0.3"
+    position="3 120 5"
+  ></a-sphere>
+  <a-sphere
+    dynamic-body
+    color="white"
+    radius="0.3"
+    position="0 100 6"
+  ></a-sphere
+  ><a-sphere dynamic-body color="white" radius="0.5" position="0 0 0"></a-sphere
+  ><a-sphere
+    dynamic-body
+    color="white"
+    radius="0.1"
+    position="7 150 4"
+  ></a-sphere
+  ><a-sphere
+    dynamic-body
+    color="white"
+    radius="0.5"
+    position="8 120 5"
+  ></a-sphere
+  ><a-sphere
+    dynamic-body
+    color="white"
+    radius="0.5"
+    position="0.1 100 -3.1"
+  ></a-sphere>
+  <a-box
+    dynamic-body
+    color="white"
+    position="4.2 100 -5.1"
+    width="0.5"
+    height="0.1"
+    depth="2"
+  ></a-box>
+  <a-box
+    animation="property: position; to: -2 1 -3; dur: 2000; easing: linear; loop: true"
+    visible="false"
+    color="white"
+    position="-2 1 -2"
+    width="2"
+    height="2"
+    depth="2"
+    static-body
+  ></a-box>
+</a-scene>

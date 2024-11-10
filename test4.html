@@ -1,0 +1,300 @@
+<script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.2/dist/aframe-physics-system.min.js"></script>
+
+<script type="module">
+  //   let speed = 0;
+  //   let maxspeed = 0.5;
+  //   let a = 0.01;
+
+  //   let isForwardPressed = false;
+  //   let isBackwardsPressed = false;
+
+  let car = {
+    front: {
+      x: 0,
+      y: 5,
+    },
+    back: {
+      x: 0,
+      y: -5,
+    },
+    length: 10,
+  };
+
+  function toAngle(radians) {
+    return radians * (180 / Math.PI);
+  }
+
+  function toRadians(angle) {
+    return angle * (Math.PI / 180);
+  }
+
+  function getAngle(a, b) {
+    return toAngle(Math.atan2(b.y - a.y, b.x - a.x));
+  }
+
+  function getMidPoint(a, b) {
+    let min = Math.min(a, b);
+    let max = Math.max(a, b);
+
+    return min + (max - min) / 2;
+  }
+
+  function getMidPoint2d(a, b) {
+    return {
+      x: getMidPoint(a.x, b.x),
+      y: getMidPoint(a.y, b.y),
+    };
+  }
+
+  function movePoint(point, distance, angle) {
+    point.x += distance * Math.cos(toRadians(angle));
+    point.y += distance * Math.sin(toRadians(angle));
+  }
+
+  function constrainTail(front, back, length) {
+    let xDelta = front.x - back.x;
+    let yDelta = front.y - back.y;
+    let distance = Math.hypot(xDelta, yDelta);
+    let delta = distance - length;
+
+    if (!delta) {
+      return;
+    }
+
+    let scale = delta / distance;
+
+    back.x += xDelta * scale;
+    back.y += yDelta * scale;
+  }
+
+  addEventListener("keydown", (event) => {
+    switch (event.key) {
+      case "w": {
+        isForwardPressed = true;
+        break;
+      }
+      case "s": {
+        isBackwardsPressed = true;
+        break;
+      }
+      case "b": {
+        speed = 0;
+        break;
+      }
+      case "c": {
+        if ((activecam = camera)) {
+          activecam = camera2;
+        } else {
+          activecam = camera;
+        }
+
+        if ((activecam = camera)) {
+          camera.setAttribute("camera", "active", true);
+          camera2.setAttribute("camera", "active", false);
+        } else {
+          camera2.setAttribute("camera", "active", true);
+          camera.setAttribute("camera", "active", false);
+        }
+      }
+    }
+  });
+
+  addEventListener("keyup", (event) => {
+    switch (event.key) {
+      case "w": {
+        isForwardPressed = false;
+        break;
+      }
+      case "s": {
+        isBackwardsPressed = false;
+        break;
+      }
+    }
+  });
+
+  function updateCar(steeringAngle, speed) {
+    movePoint(car.front, -speed, getAngle(car.front, car.back) + steeringAngle);
+
+    constrainTail(car.front, car.back, car.length);
+
+    let carMid = getMidPoint2d(car.front, car.back);
+
+    reference.object3D.position.x = car.front.x;
+    reference.object3D.position.z = car.front.y + 1;
+
+    backReference.object3D.position.x = car.back.x;
+    backReference.object3D.position.z = car.back.y + 1;
+
+    midReference.object3D.position.x = carMid.x;
+    midReference.object3D.position.z = carMid.y + 1;
+
+    midReference.object3D.rotation.y = toRadians(
+      -getAngle(car.front, car.back) - 90
+    );
+  }
+
+  function updateCamera(x, y) {
+    cameraRig.object3D.rotation.y = toRadians(180) + toRadians(-y);
+    // cameraRig.object3D.rotation.z = toRadians(x);
+    // cameraRig.object3D.rotation.x = toRadians(x);
+  }
+
+  function loop(move) {
+    requestAnimationFrame(loop);
+
+    let tolerance = 0.075;
+    let maxSpeed = 1.5;
+    let maxSteeringAngle = 22;
+    let maxViewAngle = 45;
+
+    let steeringAngle = 0;
+    let speed = 0;
+    let viewX = 0;
+    let viewY = 0;
+
+    if ((activecam = camera)) {
+      
+      camera.setAttribute("posi", "active", true);
+    } else {
+     
+      
+    }
+
+    for (let gamepad of navigator.getGamepads()) {
+      if (gamepad == null) continue;
+
+      let gamepadLeftStickY = gamepad.axes[0];
+      let gamepadRightStickY = gamepad.axes[2];
+      let gamepadRightStickX = gamepad.axes[3];
+      let gamepadLeftTrigger = gamepad.buttons[6].value;
+      let gamepadRightTrigger = gamepad.buttons[7].value;
+
+      if (Math.abs(gamepadLeftStickY) > tolerance) {
+        steeringAngle = gamepadLeftStickY * maxSteeringAngle;
+      }
+
+      if (Math.abs(gamepadLeftTrigger) > tolerance) {
+        speed += gamepadLeftTrigger * -maxSpeed;
+      }
+
+      if (Math.abs(gamepadRightTrigger) > tolerance) {
+        speed += gamepadRightTrigger * maxSpeed;
+      }
+
+      if (Math.abs(gamepadRightStickX) > tolerance) {
+        viewX += gamepadRightStickX * maxViewAngle;
+      }
+
+      if (Math.abs(gamepadRightStickY) > tolerance) {
+        viewY += gamepadRightStickY * maxViewAngle;
+      }
+    }
+
+    if (speed) {
+      updateCar(steeringAngle, speed);
+    }
+
+    updateCamera(viewX, viewY);
+
+    // if (isForwardPressed) {
+    //   if (speed < maxspeed) {
+    //     speed += a;
+    //   }
+    // }
+
+    // if (isBackwardsPressed) {
+    //   if (speed > -maxspeed) {
+    //     speed -= a;
+    //   }
+    // }
+
+    // if (speed !== 0) {
+    //   carModel.object3D.position.z -= speed;
+    // }
+
+    // // console.log(speed);
+    // if (speed > maxspeed) {
+    //   speed = maxspeed;
+    // }
+    // if (speed < -maxspeed) {
+    //   speed = -maxspeed;
+    // }
+  }
+
+  updateCar(0, 0);
+  updateCar(0, 0);
+  let activecam = camera;
+
+  requestAnimationFrame(loop);
+</script>
+
+<a-scene>
+  <a-assets>
+    <img id="ground" src="assets/images/road.jpeg" />
+    <img id="wood" src="assets/images/wood.jpeg" />
+    <a-asset-item id="corolla" src="assets/models/corolla.gltf"></a-asset-item>
+  </a-assets>
+  <a-box
+    width="0"
+    depth="0"
+    height="0"
+    id="midReference"
+    static-body
+    color="red"
+    id="carModel"
+  >
+    <a-entity id="cameraRig">
+      <a-entity
+        position="-0.7 2.7 -0.6"
+        id="camera"
+        camera="active: false"
+        look-controls
+      ></a-entity>
+    </a-entity>
+    <a-entity oculus-touch-controls="hand: left;  model: false"></a-entity>
+    <a-entity oculus-touch-controls="hand: right; model: false"></a-entity>
+    <a-entity
+      position="-0.7 5 -0.6"
+      id="camera2"
+      camera="active: true"
+      look-controls
+    ></a-entity>
+    <!-- <a-torus
+      color="#666666"
+      arc="360"
+      radius="0.8"
+      radius-tubular="0.1"
+      position="0 2.9 -0.2"
+      scale="0.1 0.1 0.1"
+    >
+    </a-torus> -->
+    <a-gltf-model
+      id="carModel"
+      src="#corolla"
+      scale="2.5 2.5 2.5"
+    ></a-gltf-model>
+  </a-box>
+  <a-box dynamic-body src="#wood" position="0 3 -15" scale="2 2 2"></a-box>
+  <a-sphere id="reference" color="green"></a-sphere>
+  <a-sphere id="backReference" color="black"></a-sphere>
+
+  <a-plane
+    src="#ground"
+    position="0 -1 0"
+    static-body
+    color="#888888"
+    height="1000"
+    width="1000"
+    rotation="-90 0 0"
+  ></a-plane>
+  <a-entity model="false" oculus-touch-controls="hand: left"></a-entity>
+  <a-entity model="false" oculus-touch-controls="hand: right"></a-entity>
+  <a-light position="0 5 5"></a-light>
+  <a-light position="5 0 5"></a-light>
+  <a-light position="5 0 10"></a-light><a-light position="10 0 5"></a-light
+  ><a-light position="10 5 10"></a-light
+  ><a-light position="10- 5 10-"></a-light>
+  <a-sky color="aqua" scale="10 10 10"></a-sky>
+</a-scene>

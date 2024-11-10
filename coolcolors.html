@@ -1,0 +1,21 @@
+<script type="module">
+  const canvas = document.getElementById("tutorial");
+  const ctx = canvas.getContext("2d");
+
+  function draw() {
+    for (let i = 0; i < 500; i + 0.9) {
+      for (let j = 0; j < 500; j + 0.9) {
+        ctx.fillStyle = `rgb(${Math.floor(255 - 20 * i)} ${Math.floor(
+          255 - 20 * j
+        )} 0)`;
+        ctx.fillRect(j * 5, i * 5, 25, 25);
+      }
+    }
+  }
+
+  draw();
+</script>
+
+<style></style>
+
+<canvas id="tutorial" width="700" height="700"> </canvas>

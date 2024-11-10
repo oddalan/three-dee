@@ -1,0 +1,111 @@
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.2/dist/aframe-physics-system.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.4.0/dist/aframe-extras.min.js"></script>
+<script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
+<script type="module">
+  let color = red;
+
+  addEventListener("keypress", (event) => {
+    switch (event.key) {
+      case "e": {
+        body.setAttribute("color", red);
+        //if (isGrabbed) {
+        //leftHand.emit("grab");
+        //rightHand.emit("grab");
+        //} else {
+        //leftHand.emit("release");
+        //rightHand.emit("release");
+        //bigbox.emit("release");
+        // }
+        break;
+      }
+    }
+  });
+
+  function getRandomInt(min, max) {
+    return min + Math.floor((max - min + 1) * Math.random());
+  }
+
+  dice.setAttribute("rotation", {
+    x: getRandomInt(0, 360),
+    y: getRandomInt(0, 360),
+    z: getRandomInt(0, 360),
+  });
+</script>
+<script>
+  AFRAME.registerComponent("thumbstick-logging", {
+    init: function () {
+      this.el.addEventListener("thumbstickmoved", this.logThumbstick);
+    },
+    logThumbstick: function (evt) {
+      if (evt.detail.y > 0.95) {
+        console.log("DOWN");
+      }
+      if (evt.detail.y < -0.95) {
+        console.log("UP");
+      }
+      if (evt.detail.x < -0.95) {
+        console.log("LEFT");
+      }
+      if (evt.detail.x > 0.95) {
+        console.log("RIGHT");
+      }
+    },
+  });
+</script>
+<a-scene reflection="directionalLight:a-light#dirlight;">
+  <a-plane
+    scale="5 10 0"
+    position="0 0 -6"
+    event-set__down="_event: mousedown; _target: #ring; visible: true"
+    material="envMap:#reflection; metalness:3.0; roughness:1.0"
+  ></a-plane>
+  <a-scene></a-scene>
+  <a-light
+    id="dirlight"
+    intensity="1"
+    light="castShadow:true;type:directional"
+    position="0 0 0"
+  ></a-light>
+  <a-entity
+    oculus-touch-controls="hand: left"
+    raycaster="lineColor: red; lineOpacity: 0.5"
+    thumbstick-logging
+    model="false"
+    ><a-sphere static-body color="#ffbb88" radius="0.3"></a-sphere
+    ><a-entity></a-entity
+  ></a-entity>
+  <a-entity
+    oculus-touch-controls="hand: right"
+    raycaster="lineColor: red; lineOpacity: 0.5"
+    thumbstick-logging
+    model="false"
+    ><a-sphere static-body color="#ffbb88" radius="0.3"></a-sphere
+    ><a-entity></a-entity
+  ></a-entity>
+  <a-ring
+    visible="false"
+    id="ring"
+    position="0 0 -6"
+    color="teal"
+    scale="2 4 0"
+  ></a-ring
+  ><a-box
+    position="0 -1 -2"
+    color="#333333"
+    width="2"
+    height="0.3"
+    depth="2"
+    static-body
+  ></a-box
+  ><a-box
+    id="dice"
+    width="0.1"
+    height="0.1"
+    depth="0.1"
+    dynamic-body
+    position="0 0 -2"
+  ></a-box
+  ><a-camera scale="1 1 1"><a-cursor></a-cursor></a-camera
+></a-scene>

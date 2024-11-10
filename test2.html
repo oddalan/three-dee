@@ -1,0 +1,33 @@
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
+<script type="module">
+  if (click.getAttribute("visible" === false())) {
+    box.setAttribute("visible", true());
+  }
+</script>
+
+<a-scene>
+  <a-box
+    id="click"
+    position="0 0 -4"
+    rotation="0 0 0"
+    width="4"
+    height="4"
+    color="#7BC8A4"
+    visible="true"
+    event-set__down="_event: mousedown; material.color: gray"
+    event-set__up="_event: mouseup; material.visible: false"
+    event-set__leave="_event: mouseleave; material.visible: false"
+  ></a-box>
+  <!--7BC8A4   489571-->
+  <a-camera>
+    <a-cursor></a-cursor>
+  </a-camera>
+  <a-box
+    id="box"
+    position="0 0 -4"
+    rotation="0 0 0"
+    color="#7BC8A4"
+    visible="false"
+  ></a-box>
+</a-scene>
