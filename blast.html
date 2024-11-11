@@ -14,9 +14,15 @@
     if (shoot === true) {
       darts.dart1.x = e.clientX;
       darts.dart1.y = e.clientY;
+      shoot = false;
     }
   }
 
+  function loop(now) {
+    requestAnimationFrame(loop);
+    ctx.fillRect(darts.dart1.x - 15, darts.dart1.y - 15, 10, 10);
+  }
+  requestAnimationFrame(loop);
   let value = Number(localStorage.getItem("myNumber") || "0");
 
   let darts = {
