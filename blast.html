@@ -20,7 +20,15 @@
 
   function loop(now) {
     requestAnimationFrame(loop);
+
+    move("mousemove");
     ctx.fillRect(darts.dart1.x - 15, darts.dart1.y - 15, 10, 10);
+
+    ctx.arc(75, 75, 50, 0, Math.PI * 2, true); // Outer circle
+    
+    ctx.arc(75, 75, 30, 0, Math.PI * 2, true);
+    
+    
   }
   requestAnimationFrame(loop);
   let value = Number(localStorage.getItem("myNumber") || "0");
@@ -39,6 +47,11 @@
       }
     }
   });
+  addEventListener("mousedown", (event) => {});
+
+  onmousedown = (event) => {
+    shoot = true;
+  };
 </script>
 
 <style>
