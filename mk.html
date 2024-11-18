@@ -1,0 +1,35 @@
+<script type="module">
+  const lastResult = document.querySelector(".lastResult");
+
+  //   lastResult.textContent = "do it";
+  lastResult.textContent = "pick one";
+  const lowOrHi = document.querySelector(".lowOrHi");
+  const playerField = document.querySelector(".playerField");
+  const player = playerField.value;
+
+  const name = "mario fan";
+
+  const greeting = `Hello ${name}`;
+
+  const guessSubmit = document.querySelector(".playerSubmit");
+
+  let thing = player;
+
+  //   alert(greeting);
+  //   alert(lastResult);
+  addEventListener("keypress", (event) => {
+    switch (event.key) {
+      case "e": {
+        // lastResult.textContent = "you did it";
+
+        lastResult.textContent = player;
+      }
+    }
+  });
+</script>
+
+<h1>Mario</h1>
+<h1 class="lastResult"></h1>
+<label for="playerField">name a Mario Kart player</label>
+<input type="text" id="playerField" class="playerField" />
+<input type="submit" value="Submit player" class="playerSubmit" />
