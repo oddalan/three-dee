@@ -1,35 +1,152 @@
 <script type="module">
-  const lastResult = document.querySelector(".lastResult");
+  const letter = document.querySelector(".letter");
+  const name = document.querySelector(".name");
+  const setting = document.querySelector(".setting");
 
-  //   lastResult.textContent = "do it";
-  lastResult.textContent = "pick one";
-  const lowOrHi = document.querySelector(".lowOrHi");
-  const playerField = document.querySelector(".playerField");
-  const player = playerField.value;
+  // letter.textContent = "pick one";
+  // const lowOrHi = document.querySelector(".lowOrHi");
+  // const playerField = document.querySelector(".playerField");
+  // const player = playerField.value;
 
-  const name = "mario fan";
+  // const name = "mario fan";
 
-  const greeting = `Hello ${name}`;
+  // const greeting = `Hello ${name}`;
 
-  const guessSubmit = document.querySelector(".playerSubmit");
+  // const guessSubmit = document.querySelector(".playerSubmit");
 
-  let thing = player;
+  // let thing = player;
+
+  // let guesses = 0;
 
   //   alert(greeting);
-  //   alert(lastResult);
-  addEventListener("keypress", (event) => {
-    switch (event.key) {
-      case "e": {
-        // lastResult.textContent = "you did it";
+  //   alert(letter);
+  //
+  // letter.textContent = "you did it";
 
-        lastResult.textContent = player;
-      }
+  // letter.textContent = player.textContent;
+
+  let number1 = 1;
+  let number2 = 0;
+  letter.textContent = "hi";
+
+  const players = [
+    { number: { one: 0, two: 0 }, id: "mario" },
+    { number: { one: 1, two: 1 }, id: "peach" },
+    { number: { one: 1, two: 2 }, id: "luigi" },
+    { number: { one: 0, two: 3 }, id: "yoshi" },
+    { number: { one: 1, two: 4 }, id: "bowser" },
+    { number: { one: 0, two: 5 }, id: "daisy" },
+    { number: { one: 2, two: 6 }, id: "link" }, //?
+    { number: { one: 2, two: 7 }, id: "toad" }, //?
+    { number: { one: 2, two: 8 }, id: "shy guy" }, //?
+  ];
+  const settings = [
+    { number: { one: 0, two: 0 }, id: "same" },
+    { number: { one: 0, two: 1 }, id: "pro" },
+  ];
+
+  function loop() {
+    requestAnimationFrame(loop);
+
+    for (let player of players) {
+      if (player.number.two === number2) {
+        name.textContent = player.id;
+      } //player.number.one === number1 ||
     }
+  }
+  requestAnimationFrame(loop);
+  addEventListener("keypress", (event) => {
+    if (event.key === "a") {
+      number2 -= 1;
+      if (number2 < 0) {
+        number2 = 9;
+      }
+      // letter.textContent = "a";
+      // console.log(letter.textContent, number1, number2);
+    }
+    if (event.key === "f") {
+      setting.textContent = "pro";
+    }
+    if (event.key === "g") {
+      setting.textContent = "same";
+    }
+    if (event.key === "d") {
+      number2 += 1;
+      if (number2 > 8) {
+        number2 = 0;
+      }
+      // letter.textContent = "d";
+      // console.log(letter.textContent, number1, number2);
+    }
+    // if (event.key === "s") {
+    //   number2 -= 3;
+    //   if (number2 < -1) {
+    //     number2 = 9;
+    //   }
+    //   letter.textContent = "s";
+    //   console.log(letter.textContent, number1, number2);
+    // }
+    // if (event.key === "w") {
+    //   number2 += 3;
+    //   if (number2 > 10) {
+    //     number2 = 0;
+    //   }
+    //   letter.textContent = "w";
+    //   console.log(letter.textContent, number1, number2);
+    // }
+    // switch (event.key) {
+    //   case "d": {
+    //     number1 += 1;
+    //     if (number1 === 3) {
+    //       number1 = 0;
+    //     }
+    //     letter.textContent = "d";
+    //     console.log(letter.textContent);
+    //   }
+    //   case "a": {
+    //     number1 -= 1;
+    //     if (number1 === -1) {
+    //       number1 = 2;
+    //     }
+    //     letter.textContent = "a";
+    //     console.log(letter.textContent);
+    //   }
+    //   case "w": {
+    //     number2 += 1;
+    //     if (number2 === 3) {
+    //       number2 = 0;
+    //     }
+    //     letter.textContent = "w";
+    //     console.log(letter.textContent);
+    //   }
+    //   case "s": {
+    //     number2 -= 1;
+    //     if (number2 === -1) {
+    //       number2 = 2;
+    //     }
+    //     letter.textContent = "s";
+    //     console.log(letter.textContent);
+    //   }
+    // }
   });
+  // }
+  // requestAnimationFrame(loop);
 </script>
 
 <h1>Mario</h1>
-<h1 class="lastResult"></h1>
+
+<h1 class="letter"></h1>
+<h1 class="name"></h1>
+<h1>+</h1>
+<h1 class="setting"></h1>
+
+<!--
 <label for="playerField">name a Mario Kart player</label>
 <input type="text" id="playerField" class="playerField" />
 <input type="submit" value="Submit player" class="playerSubmit" />
+<div class="resultParas">
+  <p class="guesses"></p>
+  <p class="lastResult"></p>
+  <p class="lowOrHi"></p>
+</div>
+-->

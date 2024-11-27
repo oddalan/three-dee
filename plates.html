@@ -1,0 +1,18 @@
+<script type="module">
+  const canvas = document.getElementById("tutorial");
+  const ctx = canvas.getContext("2d");
+
+  function getRandomInt(min, max) {
+    return min + Math.floor((max - min + 1) * Math.random());
+  }
+  ctx.fillStyle =
+    "  getRandomInt(0, 255) getRandomInt(0, 255) getRandomInt(0, 255) ";
+
+  ctx.fillRect(0, 0, getRandomInt(10, 600), getRandomInt(10, 600));
+
+ 
+</script>
+
+<style></style>
+
+<canvas id="tutorial" width="700" height="700"> </canvas>
