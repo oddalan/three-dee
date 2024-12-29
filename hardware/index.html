@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Raspberry Pi Game</title>
+    <script type="module">
+      let socket = new WebSocket("ws://localhost:3030");
+
+      socket.addEventListener("error", console.error);
+
+      socket.addEventListener("message", (event) => {
+        console.log("Message from server ", JSON.parse(event.data));
+      });
+    </script>
+  </head>
+  <body></body>
+</html>

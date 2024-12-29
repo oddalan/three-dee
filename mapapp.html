@@ -1,0 +1,15 @@
+<script type="module">
+  let number = 0;
+  let map1 = [
+    { x: 0, y: 0, number: "" },
+    { x: 20, y: 5, number: "" },
+    { x: 43, y: 72, number: "" },
+    { x: 20, y: 0, number: "" },
+  ];
+
+  for (let point of map1) {
+    number++;
+    point.number += number;
+    console.log(number, "x", point.x, "y", point.y, point.number);
+  }
+</script>

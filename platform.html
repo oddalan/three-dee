@@ -1,8 +1,148 @@
 <script type="module">
-    const canvas = document.getElementById("tutorial");
-    const ctx = canvas.getContext("2d");
+  const canvas = document.getElementById("tutorial");
+  const ctx = canvas.getContext("2d");
 
-    //297847 green
+  let x1 = 350;
+  let x2 = 0;
+  let x3 = 0;
+  let y1 = 0;
+  let y2 = 0;
+  let y3 = 0;
+  let time = 0;
+  let space = 0;
+
+  function drawspaceobject(){
+    
+  }
+
+  function getRandomInt(min, max) {
+    return min + Math.floor((max - min + 1) * Math.random());
+  }
+
+  let random100 = getRandomInt(0, 100);
+  const playersprite = {
+    img1: new Image(),
+    img2: new Image(),
+    img3: new Image(),
+    img4: new Image(),
+    img5: new Image(),
+    img6: new Image(),
+    img7: new Image(),
+  };
+
+  let players = [
+    { x: 100, y: 100 },
+    { x: 100, y: 100 },
+    { x: 100, y: 100 },
+  ];
+
+  function checkCollision(a, b) {
+    // Did A die before B was born, or
+    // Did B die before A was born?
+    if (
+      a.x + a.width < b.x ||
+      a.y + a.height < b.y ||
+      b.x + b.width < a.x ||
+      b.y + b.height < a.y
+    ) {
+      // They could not have have met
+      return false;
+    }
+
+    // They could have met
+    return true;
+  }
+
+  let x = 100;
+  let yv = 0;
+  let frame = 0;
+  let pressedd = false;
+  let presseda = false;
+
+  function loop(now) {
+    requestAnimationFrame(loop);
+    ctx.clearRect(0, 0, 700, 700);
+
+    // // if (pressedd) {
+    // //   ctx.fillStyle = "rgb(255 0 0 / 30%)";
+    // //   ctx.fillRect(x - 20, 0, 50, 50);
+    // //   ctx.fillStyle = "rgb(255 0 0 / 40%)";
+    // //   ctx.fillRect(x - 10, 0, 50, 50);
+    // //   ctx.fillStyle = "rgb(255 0 0 / 50%)";
+    // //   ctx.fillRect(x, 0, 50, 50);
+    // // }
+    // // if (presseda) {
+    // //   ctx.fillStyle = "rgb(255 0 0 / 30%)";
+    // //   ctx.fillRect(x + 20, 0, 50, 50);
+    // //   ctx.fillStyle = "rgb(255 0 0 / 40%)";
+    // //   ctx.fillRect(x + 10, 0, 50, 50);
+    // //   ctx.fillStyle = "rgb(255 0 0 / 50%)";
+    // //   ctx.fillRect(x, 0, 50, 50);
+    // // }
+    // ctx.fillStyle = "rgb(255 0 0 / 100%)";
+    // ctx.fillRect(players[0].x, players[0].y, 50, 50);
+
+    // frame += 1;
+
+    // players[0].y += yv;
+
+    // yv += 1;
+    ctx.fillStyle = "rgb(240 240 240 / 100%)";
+    ctx.beginPath();
+
+    ctx.arc(75, 75, 50, 0, Math.PI * 2, true);
+    ctx.fill();
+
+    if (x1 < -10) {
+      x1 += 10;
+    } else {
+      if (x1 > 710) {
+        x1 -= 10;
+      } else {
+        if (random100 > 50) {
+          x1 -= 10;
+          random100 += getRandomInt(-10, -1);
+        }
+        if (random100 < 49) {
+          x1 += 10;
+          random100 += getRandomInt(1, 10);
+        }
+      }
+    }
+  }
+
+  requestAnimationFrame(loop);
+  // ctx.drawImage(playersprite.img1, 0, 0);
+  const img = new Image();
+  ctx.drawImage(img, 0, 0);
+
+  //297847 green
+  playersprite.img1.src = "me.webp";
+  img.src = "me.webp";
+
+  addEventListener("keydown", (event) => {
+    // console.log(x);
+    if (event.key === "d") {
+      players[0].x += 20;
+    }
+
+    if (event.key === "a") {
+      players[0].x -= 20;
+    }
+    if (event.key === " ") {
+      yv = 7;
+    }
+  });
+  addEventListener("keyup", (event) => {
+    switch (event.key) {
+      case "d": {
+        space++;
+      }
+      case "a": {
+        space--;
+      }
+    }
+  });
 </script>
 
 <style></style>

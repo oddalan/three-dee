@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "livery": "^4.0.3",
+    "onoff": "^6.0.3",
+    "ws": "^8.18.0"
+  }
+}
