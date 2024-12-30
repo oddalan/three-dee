@@ -8,9 +8,15 @@
       socket.addEventListener("error", console.error);
 
       socket.addEventListener("message", (event) => {
-        console.log("Message from server ", JSON.parse(event.data));
+        let { id, value } = JSON.parse(event.data);
+
+        if (value) {
+          document.body.textContent = id;
+        }
       });
     </script>
   </head>
-  <body></body>
+  <body>
+    Home screen
+  </body>
 </html>
