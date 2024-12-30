@@ -2,7 +2,8 @@ import livery from "livery";
 import { Gpio } from "onoff";
 import { WebSocketServer } from "ws";
 
-livery(".", { httpPort: 3000 });
+console.log(new URL('.', import.meta.url).pathname)
+livery('.', { httpPort: 3000 });
 
 let socketServer = new WebSocketServer({ port: 3030 });
 let buttonUp = new Gpio(6, "in", "both", { debounceTimeout: 10 });
