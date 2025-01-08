@@ -1,0 +1,10 @@
+{
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "start": "http-server -SC cert.pem ."
+    },
+    "devDependencies": {
+        "http-server": "^14.1.1"
+    }
+}
