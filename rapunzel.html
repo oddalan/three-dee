@@ -38,11 +38,18 @@
 
       function addRoom(a, b, c) {
         const geometry = new THREE.BoxGeometry(10, 4, 10);
-        const material = new THREE.MeshBasicMaterial({ color: 0x996633 });
+        const material = new THREE.MeshBasicMaterial({ color: 0x333333 });
         const cube = new THREE.Mesh(geometry, material);
         cube.position.set(a, b, c);
 
         scene.add(cube);
+
+        const circlegeometry = new THREE.CircleGeometry(0.7, 32);
+        const circlematerial = new THREE.MeshBasicMaterial({ color: 0x66aaff });
+        const circle = new THREE.Mesh(circlegeometry, circlematerial);
+        scene.add(circle);
+
+        circle.position.set(a, b + 1, c + 5.01);
       }
 
       function addTower(a, b, c, d, e) {
@@ -58,14 +65,13 @@
 
         scene.add(cylinder);
 
-        const cone2geometry = new THREE.ConeGeometry(4, e, 32);
-        const cone2material = new THREE.MeshBasicMaterial({
-          color: 0x555555,
-        });
-        const cone2 = new THREE.Mesh(cone2geometry, cone2material);
-        cone2.position.z = a;
-        cone2.position.y = b + e / 2 - 1.7;
-        cone2.position.x = c;
+        const geometry = new THREE.ConeGeometry(5, 10, 32);
+        const material = new THREE.MeshBasicMaterial({ color: 0x555555 });
+        const cone = new THREE.Mesh(geometry, material);
+        scene.add(cone);
+
+        cone.position.y = 25;
+        cone.position.z = 50;
       }
 
       function addTree(a, b, c) {
@@ -90,6 +96,7 @@
         cone.position.x = c;
       }
       camera.position.y = 3;
+      camera.rotation.x = 0.2;
       function animate() {
         renderer.render(scene, camera);
         addTree(70, 0, 0);
@@ -105,7 +112,7 @@
         addTree(65, 0, -2);
         addTree(76, 0, 6);
 
-        addTower(50, 0, 0, 20);
+        addTower(50, 0, 0, 20, 0);
 
         const geometry = new THREE.PlaneGeometry(100, 100);
         const material = new THREE.MeshBasicMaterial({
@@ -121,6 +128,15 @@
         plane.rotation.x = 300;
 
         addRoom(0, 20, 50);
+
+        const plane2geometry = new THREE.PlaneGeometry(150, 150);
+        const plane2material = new THREE.MeshBasicMaterial({
+          color: 0x4466ff,
+          side: THREE.DoubleSide,
+        });
+        const plane2 = new THREE.Mesh(plane2geometry, plane2material);
+        scene.add(plane2);
+        plane2.position.set(0, 45, 35);
       }
       renderer.setAnimationLoop(animate);
 
