@@ -1,30 +1,48 @@
-<script type="module">
+
+    
+    
+    <script type="module">
   const canvas = document.getElementById("game");
   const ctx = canvas.getContext("2d");
 
-  ctx.fillstyle = "0 255 0";
+  let x = 25;
+  let y = 25;
 
-  ctx.fillRect(25, 25, 100, 100);
+  let v = { x: 0, y: 0 };
+
+  function loop(now) {
+    requestAnimationFrame(loop);
+    ctx.clearRect(0, 0, 700, 700);
+
+    ctx.fillstyle = "0 255 0";
+
+    ctx.fillRect(x, y, 100, 100);
+
+    y++;
+  }
+  requestAnimationFrame(loop);
 
   addEventListener("keydown", (event) => {
     // console.log(x);
     if (event.key === "d") {
-      players[0].x += 20;
+      x += 5;
     }
 
     if (event.key === "a") {
-      players[0].x -= 20;
+      x -= 5;
     }
     if (event.key === " ") {
-      yv = 7;
+      y -= 4;
     }
   });
 </script>
 
 <style>
   canvas {
-    border: 5px solid black;
+    border: 5px solid rgb(80, 80, 80);
   }
 </style>
 
 <canvas id="game" width="700" height="700"> </canvas>
+
+></--!>

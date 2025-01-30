@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>hahaha</title>
+    <style>
+      body {
+        margin: 0;
+      }
+    </style>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.172.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.172.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <script type="module">
+      import * as THREE from "three";
+
+      const renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      const camera = new THREE.PerspectiveCamera(
+        45,
+        window.innerWidth / window.innerHeight,
+        1,
+        500
+      );
+      camera.position.set(0, 0, 100);
+      camera.lookAt(0, 0, 0);
+
+      const scene = new THREE.Scene();
+
+      function addRoom(a, b, c) {
+        const geometry = new THREE.BoxGeometry(10, 4, 10);
+        const material = new THREE.MeshBasicMaterial({ color: 0x996633 });
+        const cube = new THREE.Mesh(geometry, material);
+        cube.position.set(a, b, c);
+
+        scene.add(cube);
+      }
+
+      function addTower(a, b, c, d, e) {
+        const cylindergeometry = new THREE.CylinderGeometry(4, 4, d, 32);
+        const cylindermaterial = new THREE.MeshBasicMaterial({
+          color: 0x555555,
+        });
+        const cylinder = new THREE.Mesh(cylindergeometry, cylindermaterial);
+
+        cylinder.position.z = a;
+        cylinder.position.y = b + d / 2 - 1.7;
+        cylinder.position.x = c;
+
+        scene.add(cylinder);
+
+        const cone2geometry = new THREE.ConeGeometry(4, e, 32);
+        const cone2material = new THREE.MeshBasicMaterial({
+          color: 0x555555,
+        });
+        const cone2 = new THREE.Mesh(cone2geometry, cone2material);
+        cone2.position.z = a;
+        cone2.position.y = b + e / 2 - 1.7;
+        cone2.position.x = c;
+      }
+
+      function addTree(a, b, c) {
+        const cylindergeometry = new THREE.CylinderGeometry(1, 1, 1, 32);
+        const cylindermaterial = new THREE.MeshBasicMaterial({
+          color: 0x885500,
+        });
+        const cylinder = new THREE.Mesh(cylindergeometry, cylindermaterial);
+
+        const conegeometry = new THREE.ConeGeometry(2, 5, 32);
+        const conematerial = new THREE.MeshBasicMaterial({ color: 0x008800 });
+        const cone = new THREE.Mesh(conegeometry, conematerial);
+
+        scene.add(cylinder);
+
+        scene.add(cone);
+        cylinder.position.z = a;
+        cylinder.position.y = b - 1;
+        cylinder.position.x = c;
+        cone.position.z = a;
+        cone.position.y = b + 2;
+        cone.position.x = c;
+      }
+      camera.position.y = 3;
+      function animate() {
+        renderer.render(scene, camera);
+        addTree(70, 0, 0);
+        addTree(65, 0, 2);
+        addTree(65, 0, -2);
+        addTree(70, 0, 0);
+        addTree(72, 0, -1);
+        addTree(65, 0, 2);
+        addTree(65, 0, -2);
+        addTree(70, 0, -6);
+        addTree(70, 0, -5);
+        addTree(65, 0, 2);
+        addTree(65, 0, -2);
+        addTree(76, 0, 6);
+
+        addTower(50, 0, 0, 20);
+
+        const geometry = new THREE.PlaneGeometry(100, 100);
+        const material = new THREE.MeshBasicMaterial({
+          color: 0x00ff00,
+          side: THREE.DoubleSide,
+        });
+        const plane = new THREE.Mesh(geometry, material);
+        scene.add(plane);
+
+        plane.position.z = 75;
+        plane.position.y = -1.5;
+
+        plane.rotation.x = 300;
+
+        addRoom(0, 20, 50);
+      }
+      renderer.setAnimationLoop(animate);
+
+      addEventListener("keydown", (event) => {
+        // console.log(x);
+        if (event.key === "d") {
+          camera.position.x += 1;
+        }
+
+        if (event.key === "a") {
+          camera.position.x -= 1;
+        }
+        if (event.key === "w") {
+          camera.position.y += 1;
+        }
+
+        if (event.key === "s") {
+          camera.position.y -= 1;
+        }
+        if (event.key === "b") {
+          camera.position.z -= 1;
+        }
+
+        if (event.key === " ") {
+          camera.position.z += 1;
+        }
+
+        if (event.key === "ArrowLeft") {
+          camera.rotation.y += 0.01;
+        }
+
+        if (event.key === "ArrowRight") {
+          camera.rotation.y -= 0.01;
+        }
+        if (event.key === "ArrowUp") {
+          camera.rotation.x += 0.01;
+        }
+
+        if (event.key === "ArrowDown") {
+          camera.rotation.x -= 0.01;
+        }
+      });
+    </script>
+  </body>
+</html>

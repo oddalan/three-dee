@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>heros</title>
+    <style>
+      body {
+        margin: 0;
+      }
+    </style>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.172.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.172.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <script type="module">
+      import * as THREE from "three";
+
+      const renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      const camera = new THREE.PerspectiveCamera(
+        45,
+        window.innerWidth / window.innerHeight,
+        1,
+        500
+      );
+
+      const boxes = [
+        {
+          x: 0,
+          y: 0,
+          z: 0,
+          width: 1,
+          height: 1,
+          depth: 1,
+          id: "box",
+        },
+        {
+          x: 0.3,
+          y: 0,
+          z: 0,
+          width: 1,
+          height: 1,
+          depth: 1,
+          id: "box",
+        },
+        {
+          x: -5,
+          y: 0,
+          z: 0,
+          width: 1,
+          height: 1,
+          depth: 1,
+          id: "box",
+        },
+        {
+          x: 0,
+          y: 0,
+          z: 0.3,
+          width: 1,
+          height: 1,
+          depth: 1,
+          id: "box",
+        },
+      ];
+
+      const cylinders = [
+        {
+          x: 0,
+          y: 0,
+          z: 0,
+          radiusTop: 1,
+          radiusBottom: 1,
+          height: 1,
+
+          id: "cylinder",
+        },
+        {
+          x: 0.3,
+          y: 0,
+          z: 0,
+          radiusTop: 1,
+          radiusBottom: 1,
+          height: 1,
+
+          id: "cylinder",
+        },
+        {
+          x: -5,
+          y: 0,
+          z: 0,
+          radiusTop: 1,
+          radiusBottom: 1,
+          height: 1,
+
+          id: "cylinder",
+        },
+        {
+          x: 0,
+          y: 0,
+          z: 0.3,
+          radiusTop: 1,
+          radiusBottom: 1,
+          height: 1,
+
+          id: "cylinder",
+        },
+      ];
+
+      function checkCollision(a, b) {
+        let afullwidth = a.width;
+        let afullheight = a.height;
+        let afulldepth = a.depth;
+        let bfullwidth = b.width;
+        let bfullheight = b.height;
+        let bfulldepth = b.depth;
+
+        if (
+          a.x + afullwidth < b.x ||
+          a.y + afullheight < b.y ||
+          a.z + afulldepth < b.z ||
+          b.x + bfullwidth < a.x ||
+          b.y + bfullheight < a.y ||
+          b.z + bfulldepth < a.z
+        ) {
+          // They could not have have met
+          return false;
+        }
+
+        // They could have met
+        return true;
+      }
+
+      console.log(checkCollision(boxes[0], boxes[1]));
+      console.log(checkCollision(boxes[1], boxes[2]));
+      console.log(checkCollision(boxes[0], boxes[3]));
+
+      function addTree(a, b, c, d) {
+        const cylindergeometry = new THREE.CylinderGeometry(1, 1, d / 3, 32);
+        const cylindermaterial = new THREE.MeshBasicMaterial({
+          color: 0x885500,
+        });
+        const cylinder = new THREE.Mesh(cylindergeometry, cylindermaterial);
+
+        const conegeometry = new THREE.ConeGeometry(2, d - d / 5, 32);
+        const conematerial = new THREE.MeshBasicMaterial({ color: 0x008800 });
+        const cone = new THREE.Mesh(conegeometry, conematerial);
+
+        scene.add(cylinder);
+
+        scene.add(cone);
+        cylinder.position.z = a;
+        cylinder.position.y = b - 0.5;
+        cylinder.position.x = c;
+        cone.position.z = a;
+        cone.position.y = b + 2;
+        cone.position.x = c;
+      }
+      camera.position.set(0, 3.6, 100);
+
+      const scene = new THREE.Scene();
+
+      const cube1geometry = new THREE.BoxGeometry(1, 1, 1);
+      const cube1material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      const cube1 = new THREE.Mesh(cube1geometry, cube1material);
+
+      const cube2geometry = new THREE.BoxGeometry(1, 1, 1);
+      const cube2material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      const cube2 = new THREE.Mesh(cube2geometry, cube2material);
+
+      const playergeometry = new THREE.BoxGeometry(2, 2, 2);
+      const playermaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      const player = new THREE.Mesh(playergeometry, playermaterial);
+
+      const geometry = new THREE.PlaneGeometry(10000, 10000);
+      const material = new THREE.MeshBasicMaterial({
+        color: 0x00ff00,
+        side: THREE.DoubleSide,
+      });
+      const plane = new THREE.Mesh(geometry, material);
+
+      cube1.position.z = 65;
+      player.position.z = 85;
+      let a = 0;
+      let b = 0;
+      let cube1cos = Math.cos(a);
+      let cube1sin = Math.sin(a);
+
+      console.log(cube1cos, cube1sin);
+
+      function animate() {
+        renderer.render(scene, camera);
+        scene.add(cube1);
+        scene.add(cube2);
+
+        camera.position.x = player.position.x + cube1sin * 5;
+        camera.position.y = player.position.y + 5;
+        camera.position.z = player.position.z + cube1cos * 5;
+
+        cube2.position.x = cube1sin;
+        cube2.position.z = cube1cos + 95;
+        cube2.position.y = 1;
+
+        cube1cos = Math.cos(a) * 5;
+        cube1sin = Math.sin(a) * 5;
+
+        scene.add(player);
+        camera.lookAt(
+          player.position.x,
+          player.position.y + 3.5,
+          player.position.z
+        );
+        addTree(75, 0, 0, 5);
+        addTree(71, 0, 6, 5);
+        addTree(78, 0, -6, 5);
+        addTree(70, 0, -12, 5);
+
+        scene.add(plane);
+
+        plane.position.z = 75;
+        plane.position.y = -1.5;
+
+        plane.rotation.x = 300;
+      }
+      renderer.setAnimationLoop(animate);
+
+      let y = 0.05;
+      let z = 5;
+
+      addEventListener("keydown", (event) => {
+        // console.log(x);
+        if (event.key === "d") {
+          player.position.x += 1;
+        }
+
+        if (event.key === "a") {
+          player.position.x -= 1;
+        }
+        if (event.key === "w") {
+          player.position.y += 1;
+        }
+
+        if (event.key === "s") {
+          player.position.y -= 1;
+        }
+        if (event.key === "b") {
+          player.position.z -= 1;
+        }
+
+        if (event.key === " ") {
+          player.position.z += 1;
+        }
+        if (event.key === "ArrowLeft") {
+          a -= 0.1;
+        }
+
+        if (event.key === "ArrowRight") {
+          a += 0.1;
+        }
+        if (event.key === "ArrowUp") {
+          camera.position.y += y;
+          y += 0.001;
+
+          console.log(camera.rotation.x);
+        }
+
+        if (event.key === "ArrowDown") {
+          //   camera.position.y += y;
+          //   camera.position.z += z;
+
+          //   if (camera.position.y > player.position.y + 1) {
+          //     y -= 0.0000001;
+          //   } else {
+          //     y -= 0.0000001;
+          //   }
+
+          //   y = Math.sin(a) * 5;
+          //   z = Math.sin(b) * 2;
+          //   a += 0.1;
+          //   b += 0.1;
+
+          Math.sin();
+
+          console.log("sin", Math.sin(a), "cos", Math.cos(a));
+          a += 0.1;
+        }
+      });
+    </script>
+  </body>
+</html>
