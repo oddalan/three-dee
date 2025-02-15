@@ -32,11 +32,37 @@
         500
       );
 
+      const cube1geometry = new THREE.BoxGeometry(1, 1, 1);
+      const cube1material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      const cube1 = new THREE.Mesh(cube1geometry, cube1material);
+
+      const cube2geometry = new THREE.BoxGeometry(1, 1, 1);
+      const cube2material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      const cube2 = new THREE.Mesh(cube2geometry, cube2material);
+
+      const playergeometry = new THREE.BoxGeometry(2, 2, 2);
+      const playermaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      const player = new THREE.Mesh(playergeometry, playermaterial);
+
+      const geometry = new THREE.PlaneGeometry(10000, 10000);
+      const material = new THREE.MeshBasicMaterial({
+        color: 0x00ff00,
+        side: THREE.DoubleSide,
+      });
+      const plane = new THREE.Mesh(geometry, material);
+
+      cube1.position.z = 65;
+      player.position.z = 85;
+      let a = 0;
+      let b = 0;
+      let cube1cos1 = Math.cos(a);
+      let cube1sin1 = Math.sin(a);
+
       const boxes = [
         {
-          x: 0,
-          y: 0,
-          z: 0,
+          x: cube1.position.x,
+          y: cube1.position.y,
+          z: cube1.position.z,
           width: 1,
           height: 1,
           depth: 1,
@@ -79,6 +105,8 @@
           radiusTop: 1,
           radiusBottom: 1,
           height: 1,
+          width: 1,
+          depth: 1,
 
           id: "cylinder",
         },
@@ -89,6 +117,8 @@
           radiusTop: 1,
           radiusBottom: 1,
           height: 1,
+          width: 1,
+          depth: 1,
 
           id: "cylinder",
         },
@@ -99,6 +129,8 @@
           radiusTop: 1,
           radiusBottom: 1,
           height: 1,
+          width: 1,
+          depth: 1,
 
           id: "cylinder",
         },
@@ -109,6 +141,8 @@
           radiusTop: 1,
           radiusBottom: 1,
           height: 1,
+          width: 1,
+          depth: 1,
 
           id: "cylinder",
         },
@@ -167,55 +201,44 @@
 
       const scene = new THREE.Scene();
 
-      const cube1geometry = new THREE.BoxGeometry(1, 1, 1);
-      const cube1material = new THREE.MeshBasicMaterial({ color: 0xffffff });
-      const cube1 = new THREE.Mesh(cube1geometry, cube1material);
+      let cube1cos2 = Math.cos(b);
+      let cube1sin2 = Math.sin(b);
 
-      const cube2geometry = new THREE.BoxGeometry(1, 1, 1);
-      const cube2material = new THREE.MeshBasicMaterial({ color: 0xffffff });
-      const cube2 = new THREE.Mesh(cube2geometry, cube2material);
+      console.log(cube1cos1, cube1sin1);
+      console.log(cube1);
 
-      const playergeometry = new THREE.BoxGeometry(2, 2, 2);
-      const playermaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-      const player = new THREE.Mesh(playergeometry, playermaterial);
-
-      const geometry = new THREE.PlaneGeometry(10000, 10000);
-      const material = new THREE.MeshBasicMaterial({
-        color: 0x00ff00,
-        side: THREE.DoubleSide,
-      });
-      const plane = new THREE.Mesh(geometry, material);
-
-      cube1.position.z = 65;
-      player.position.z = 85;
-      let a = 0;
-      let b = 0;
-      let cube1cos = Math.cos(a);
-      let cube1sin = Math.sin(a);
-
-      console.log(cube1cos, cube1sin);
 
       function animate() {
+        
+        boxes[1].x = cube1.position.x;
+        boxes[1].y = cube1.position.y;
+        boxes[1].z = cube1.position.z;
         renderer.render(scene, camera);
         scene.add(cube1);
         scene.add(cube2);
 
-        camera.position.x = player.position.x + cube1sin * 5;
-        camera.position.y = player.position.y + 5;
-        camera.position.z = player.position.z + cube1cos * 5;
+        camera.position.x = player.position.x + cube1sin1 * 5;
+        camera.position.y = player.position.y + 5 + cube1sin2 * 5;
+        camera.position.z = player.position.z + cube1cos1 * 5;
 
-        cube2.position.x = cube1sin;
-        cube2.position.z = cube1cos + 95;
+        cube2.position.x = cube1sin1;
+        cube2.position.z = cube1cos1 + 95;
         cube2.position.y = 1;
 
-        cube1cos = Math.cos(a) * 5;
-        cube1sin = Math.sin(a) * 5;
+        cube1cos1 = Math.cos(a) * 5;
+        cube1sin1 = Math.sin(a) * 5;
 
         scene.add(player);
         camera.lookAt(
           player.position.x,
           player.position.y + 3.5,
           player.position.z
+        );
+
+        player.lookAt(
+          camera.position.x,
+          camera.position.y - 3.5,
+          camera.position.z
         );
         addTree(75, 0, 0, 5);
         addTree(71, 0, 6, 5);
@@ -227,8 +250,14 @@
         plane.position.z = 75;
         plane.position.y = -1.5;
 
-        plane.rotation.x = 300;
+        plane.rotation.x = (90 * Math.PI) / 180;
       }
+      let number = 300;
+      let newnumber = 0;
+
+      newnumber = (number * Math.PI) / 180;
+      console.log(number, newnumber);
+
       renderer.setAnimationLoop(animate);
 
       let y = 0.05;
@@ -237,11 +266,13 @@
       addEventListener("keydown", (event) => {
         // console.log(x);
         if (event.key === "d") {
-          player.position.x += 1;
+          player.position.z -= cube1sin1 / 10;
+          player.position.x += cube1cos1 / 10;
         }
 
         if (event.key === "a") {
-          player.position.x -= 1;
+          player.position.z += cube1sin1 / 10;
+          player.position.x -= cube1cos1 / 10;
         }
         if (event.key === "w") {
           player.position.y += 1;
@@ -251,11 +282,13 @@
           player.position.y -= 1;
         }
         if (event.key === "b") {
-          player.position.z -= 1;
+          player.position.z -= cube1cos1 / 10;
+          player.position.x -= cube1sin1 / 10;
         }
 
         if (event.key === " ") {
-          player.position.z += 1;
+          player.position.z += cube1cos1 / 10;
+          player.position.x += cube1sin1 / 10;
         }
         if (event.key === "ArrowLeft") {
           a -= 0.1;
@@ -288,8 +321,8 @@
 
           Math.sin();
 
-          console.log("sin", Math.sin(a), "cos", Math.cos(a));
-          a += 0.1;
+          console.log("sin", Math.sin(b), "cos", Math.cos(b));
+          b += 0.1;
         }
       });
     </script>

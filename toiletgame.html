@@ -1,0 +1,22 @@
+<script type="module">
+  const canvas = document.getElementById("tutorial");
+  const ctx = canvas.getContext("2d");
+
+  function getRandomInt(min, max) {
+    return min + Math.floor((max - min + 1) * Math.random());
+  }
+
+  const img = new Image();
+
+  ctx.drawImage(img, 0, 0, 35, 35);
+
+  console.log(img);
+
+  ctx.fillRect(0, 0, 700, 700);
+
+  img.src = "toiletgame.webp";
+</script>
+
+<style></style>
+
+<canvas id="tutorial" width="700" height="700"></canvas>
