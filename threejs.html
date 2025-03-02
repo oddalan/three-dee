@@ -4,8 +4,21 @@
     <meta charset="utf-8" />
     <title>heros</title>
     <style>
+      html {
+        height: 100%;
+      }
       body {
+        height: 100%;
         margin: 0;
+      }
+      canvas {
+        position: fixed;
+        inset: 0;
+        height: 100%;
+        width: 100%;
+      }
+      .ui {
+        z-index: 1;
       }
     </style>
     <script type="importmap">
@@ -24,6 +37,8 @@
       const renderer = new THREE.WebGLRenderer();
       renderer.setSize(window.innerWidth, window.innerHeight);
       document.body.appendChild(renderer.domElement);
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
 
       const camera = new THREE.PerspectiveCamera(
         45,
@@ -31,10 +46,55 @@
         1,
         500
       );
+      // add stuff add stuff add stuff add stuff add stuff add stuff
+      const loader = new THREE.CubeTextureLoader();
+      loader.setPath("");
+
+      const textureCube = loader.load([
+        "ayplay.webp",
+        "thing.webp",
+        "ayplay.webp",
+        "thing.webp",
+        "ayplay.webp",
+        "thing.webp",
+      ]);
+      const cube3geometry = new THREE.BoxGeometry(1, 1, 1);
+      const cube3material = new THREE.MeshBasicMaterial({
+        color: 0xffffff,
+        envMap: textureCube,
+      });
+      const cube3 = new THREE.Mesh(cube3geometry, cube3material);
+
+      cube3.position.set(0, 2, 97);
+
+      const light = new THREE.DirectionalLight(0xffffff, 1);
+      light.position.set(0, 10, 0); //default; light shining from top
+      light.castShadow = true; // default false
+      light.intensity = 5;
+      light.shadow.mapSize.width = 512; // default
+      light.shadow.mapSize.height = 512; // default
+      light.shadow.camera.near = 0.5; // default
+      light.shadow.camera.far = 500; // default
 
       const cube1geometry = new THREE.BoxGeometry(1, 1, 1);
       const cube1material = new THREE.MeshBasicMaterial({ color: 0xffffff });
       const cube1 = new THREE.Mesh(cube1geometry, cube1material);
+      cube1.position.set(0, 5, 0);
+      cube1.castShadow = true;
+      cube1.receiveShadow = false;
+
+      const shapex = 0,
+        shapey = 0;
+
+      const shadowShape = new THREE.Shape();
+
+      shadowShape.moveTo(shapex + 5, shapey + 5);
+
+      const shadowgeometry = new THREE.ShapeGeometry(shadowShape);
+      const shadowmaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+      const shadow = new THREE.Mesh(shadowgeometry, shadowmaterial);
+
+      shadow.position.z = 95;
 
       const cube2geometry = new THREE.BoxGeometry(1, 1, 1);
       const cube2material = new THREE.MeshBasicMaterial({ color: 0xffffff });
@@ -49,14 +109,18 @@
         color: 0x00ff00,
         side: THREE.DoubleSide,
       });
-      const plane = new THREE.Mesh(geometry, material);
 
-      cube1.position.z = 65;
+      const plane = new THREE.Mesh(geometry, material);
+      plane.castShadow = false; //default
+      plane.receiveShadow = true; // not default
+
+      // cube1.position.z = 65;
       player.position.z = 85;
       let a = 0;
       let b = 0;
       let cube1cos1 = Math.cos(a);
       let cube1sin1 = Math.sin(a);
+      player.position.x = 2;
 
       const boxes = [
         {
@@ -206,16 +270,18 @@
 
       console.log(cube1cos1, cube1sin1);
       console.log(cube1);
-
+      console.log(light);
 
       function animate() {
-        
+        scene.add(light);
+        // animate animate animate animate animate animate
         boxes[1].x = cube1.position.x;
         boxes[1].y = cube1.position.y;
         boxes[1].z = cube1.position.z;
         renderer.render(scene, camera);
         scene.add(cube1);
         scene.add(cube2);
+        scene.add(cube3);
 
         camera.position.x = player.position.x + cube1sin1 * 5;
         camera.position.y = player.position.y + 5 + cube1sin2 * 5;
@@ -251,6 +317,9 @@
         plane.position.y = -1.5;
 
         plane.rotation.x = (90 * Math.PI) / 180;
+
+        const helper = new THREE.CameraHelper(light.shadow.camera);
+        scene.add(helper);
       }
       let number = 300;
       let newnumber = 0;
@@ -325,6 +394,72 @@
           b += 0.1;
         }
       });
+
+      const tutorialContext = tutorial.getContext("2d");
+
+      function resizeContext() {
+        let { clientWidth, clientHeight } = tutorialContext.canvas;
+        tutorialContext.canvas.width = clientWidth;
+        tutorialContext.canvas.height = clientHeight;
+        tutorialContext.width = tutorialContext.canvas.clientWidth;
+        tutorialContext.height = tutorialContext.canvas.clientHeight;
+        tutorialContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      }
+
+      function renderContext() {
+        tutorialContext.translate(
+          tutorialContext.width - 110,
+          tutorialContext.height - 110
+        );
+
+        tutorialContext.fillStyle = "red";
+        tutorialContext.fillRect(0, 0, 100, 100);
+
+        tutorialContext.save();
+
+        tutorialContext.translate(
+          player.position.x / 100,
+          player.position.z / 100
+        );
+
+        console.log(tutorialContext.width - 110 + player.position.x / 100);
+
+        tutorialContext.rotate((45 * Math.PI) / 180);
+
+        tutorialContext.fillStyle = "yellow";
+
+        tutorialContext.beginPath();
+        tutorialContext.moveTo(0, 0);
+        tutorialContext.lineTo(20, 10);
+        tutorialContext.lineTo(0, 20);
+        tutorialContext.fill();
+
+        tutorialContext.restore();
+        requestAnimationFrame(renderContext);
+      }
+      requestAnimationFrame(renderContext);
+
+      console.log(player.position.x / 100);
+
+      addEventListener(
+        "resize",
+        () => {
+          resizeContext();
+          renderContext();
+        },
+        { passive: true }
+      );
+
+      resizeContext();
+      renderContext();
     </script>
+    <canvas
+      id="tutorial"
+      class="ui"
+      width="700"
+      height="700"
+      x="5"
+      y="10"
+    ></canvas>
   </body>
 </html>
