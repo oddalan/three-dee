@@ -115,12 +115,22 @@
       plane.receiveShadow = true; // not default
 
       // cube1.position.z = 65;
-      player.position.z = 85;
+      let playerx = 2;
+      let playery = 0;
+      let playerz = 85;
+
+      localStorage.setItem("x", "2");
+      localStorage.setItem("y", "0");
+      localStorage.setItem("z", "85");
+
+      console.log(localStorage.getItem("x"));
+      console.log(localStorage.getItem("y"));
+      console.log(localStorage.getItem("z"));
+
       let a = 0;
       let b = 0;
       let cube1cos1 = Math.cos(a);
       let cube1sin1 = Math.sin(a);
-      player.position.x = 2;
 
       const boxes = [
         {
@@ -212,33 +222,45 @@
         },
       ];
 
-      function checkCollision(a, b) {
-        let afullwidth = a.width;
-        let afullheight = a.height;
-        let afulldepth = a.depth;
-        let bfullwidth = b.width;
-        let bfullheight = b.height;
-        let bfulldepth = b.depth;
+      function Collision(a, b) {
+        let i = 0;
 
-        if (
-          a.x + afullwidth < b.x ||
-          a.y + afullheight < b.y ||
-          a.z + afulldepth < b.z ||
-          b.x + bfullwidth < a.x ||
-          b.y + bfullheight < a.y ||
-          b.z + bfulldepth < a.z
-        ) {
-          // They could not have have met
-          return false;
+        if (a.centerOfMass.position.x > b.top.width && b.rotation.x === 90) {
+          i++;
         }
 
-        // They could have met
-        return true;
+        if (a.centerOfMass.position.z > b.top.depth && b.rotation.z === 90) {
+          i++;
+        }
       }
 
-      console.log(checkCollision(boxes[0], boxes[1]));
-      console.log(checkCollision(boxes[1], boxes[2]));
-      console.log(checkCollision(boxes[0], boxes[3]));
+      // function checkCollision(a, b) {
+      //   let afullwidth = a.width;
+      //   let afullheight = a.height;
+      //   let afulldepth = a.depth;
+      //   let bfullwidth = b.width;
+      //   let bfullheight = b.height;
+      //   let bfulldepth = b.depth;
+
+      //   if (
+      //     a.x + afullwidth < b.x ||
+      //     a.y + afullheight < b.y ||
+      //     a.z + afulldepth < b.z ||
+      //     b.x + bfullwidth < a.x ||
+      //     b.y + bfullheight < a.y ||
+      //     b.z + bfulldepth < a.z
+      //   ) {
+      //     // They could not have have met
+      //     return false;
+      //   }
+
+      //   // They could have met
+      //   return true;
+      // }
+
+      // console.log(checkCollision(boxes[0], boxes[1]));
+      // console.log(checkCollision(boxes[1], boxes[2]));
+      // console.log(checkCollision(boxes[0], boxes[3]));
 
       function addTree(a, b, c, d) {
         const cylindergeometry = new THREE.CylinderGeometry(1, 1, d / 3, 32);
@@ -269,9 +291,9 @@
       let cube1sin2 = Math.sin(b);
 
       console.log(cube1cos1, cube1sin1);
-      console.log(cube1);
+      console.log(cube1.BoxGeometry);
       console.log(light);
-
+      console.log();
       function animate() {
         scene.add(light);
         // animate animate animate animate animate animate
@@ -337,18 +359,23 @@
         if (event.key === "d") {
           player.position.z -= cube1sin1 / 10;
           player.position.x += cube1cos1 / 10;
+
+          console.log(player.position.z, player.position.x);
         }
 
         if (event.key === "a") {
           player.position.z += cube1sin1 / 10;
           player.position.x -= cube1cos1 / 10;
+          console.log(player.position.z, player.position.x);
         }
         if (event.key === "w") {
           player.position.y += 1;
+          console.log(player.position.y);
         }
 
         if (event.key === "s") {
           player.position.y -= 1;
+          console.log(player.position.y);
         }
         if (event.key === "b") {
           player.position.z -= cube1cos1 / 10;
@@ -360,11 +387,11 @@
           player.position.x += cube1sin1 / 10;
         }
         if (event.key === "ArrowLeft") {
-          a -= 0.1;
+          a -= 0.05;
         }
 
         if (event.key === "ArrowRight") {
-          a += 0.1;
+          a += 0.05;
         }
         if (event.key === "ArrowUp") {
           camera.position.y += y;
@@ -421,8 +448,6 @@
           player.position.x / 100,
           player.position.z / 100
         );
-
-        console.log(tutorialContext.width - 110 + player.position.x / 100);
 
         tutorialContext.rotate((45 * Math.PI) / 180);
 

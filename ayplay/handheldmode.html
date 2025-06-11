@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <style>
+    html {
+      height: 100%;
+    }
+    body {
+      height: 100%;
+      margin: 0;
+    }
+    canvas {
+      position: fixed;
+      inset: 0;
+      height: 100%;
+      width: 100%;
+    }
+    .ui {
+      z-index: -1;
+    }
+  </style>
+  <body>
+    <a href="https://127.0.0.1:8080/ayplay/stuff.html"
+      ><img
+        src="https://127.0.0.1:8080/ayplay/testgame.webp"
+        alt="HTML tutorial"
+        style="width: 450px; height: 341px"
+    /></a>
+    <script type="module">
+      const tutorialContext = canvas1.getContext("2d");
+
+      function resizeContext() {
+        let { clientWidth, clientHeight } = tutorialContext.canvas;
+        tutorialContext.canvas.width = clientWidth;
+        tutorialContext.canvas.height = clientHeight;
+        tutorialContext.width = tutorialContext.canvas.clientWidth;
+        tutorialContext.height = tutorialContext.canvas.clientHeight;
+        tutorialContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      }
+
+      function renderContext() {
+        tutorialContext.fillRect(0, 0, 450, 200);
+
+        tutorialContext.save();
+
+        tutorialContext.clearRect(10, 10, 430, 180);
+
+        tutorialContext.restore();
+        requestAnimationFrame(renderContext);
+      }
+      requestAnimationFrame(renderContext);
+
+      //   const canvas = document.getElementById("tutorial");
+      //   const ctx = canvas.getContext("2d");
+    </script>
+    <canvas
+      id="canvas1"
+      class="ui"
+      width="700"
+      height="700"
+      x="5"
+      y="10"
+    ></canvas>
+  </body>
+</html>

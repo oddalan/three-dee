@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>heros</title>
+    <style>
+      html {
+        height: 100%;
+      }
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      canvas {
+        position: fixed;
+        inset: 0;
+        height: 100%;
+        width: 100%;
+      }
+      .ui {
+        z-index: -1;
+      }
+    </style>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.172.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.172.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <script type="module">
+      import * as THREE from "three";
+
+      const renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
+
+      const camera = new THREE.PerspectiveCamera(
+        45,
+        window.innerWidth / window.innerHeight,
+        1,
+        500
+      );
+
+      const loader = new THREE.CubeTextureLoader();
+      loader.setPath("");
+
+      const scene = new THREE.Scene();
+      // add stuff
+      function addBox(a, b, c, d) {
+        const boxgeometry = new THREE.CylinderGeometry(a, b, c);
+        const boxmaterial = new THREE.MeshBasicMaterial({
+          color: d,
+        });
+        const box = new THREE.Mesh(boxgeometry, boxmaterial);
+
+        scene.add(box);
+
+        box.position.z = a;
+        box.position.y = b;
+        box.position.x = c;
+      }
+
+      addBox(1, 1, 2, 0x00ff00);
+
+      const tutorialContext = tutorial.getContext("2d");
+
+      function resizeContext() {
+        let { clientWidth, clientHeight } = tutorialContext.canvas;
+        tutorialContext.canvas.width = clientWidth;
+        tutorialContext.canvas.height = clientHeight;
+        tutorialContext.width = tutorialContext.canvas.clientWidth;
+        tutorialContext.height = tutorialContext.canvas.clientHeight;
+        tutorialContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      }
+
+      function renderContext() {
+        tutorialContext.fillRect(0, 0, 10, 10);
+        requestAnimationFrame(renderContext);
+      }
+
+      requestAnimationFrame(renderContext);
+
+      addEventListener(
+        "resize",
+        () => {
+          resizeContext();
+          renderContext();
+        },
+        { passive: true }
+      );
+
+      resizeContext();
+      renderContext();
+    </script>
+    <canvas
+      id="tutorial"
+      class="ui"
+      width="700"
+      height="700"
+      x="5"
+      y="10"
+    ></canvas>
+  </body>
+</html>
