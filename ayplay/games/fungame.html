@@ -21,11 +21,19 @@
     9: null,
   };
 
+  let players = [
+    { x: 0, y: 300 },
+    { x: 200, y: 300 },
+    { x: 400, y: 300 },
+    { x: 600, y: 300 },
+  ];
+
   function loop(now) {
     requestAnimationFrame(loop);
     let delta = now - then;
     then = now;
     loopGamepad(now);
+    renderGame(now);
   }
 
   requestAnimationFrame(loop);
@@ -91,11 +99,21 @@
 
   addEventListener("gamepadbuttondown", (event) => {
     console.log("down", event.detail);
+
+    players[event.detail.gamepadId].x += 10;
   });
 
   addEventListener("gamepadbuttonup", (event) => {
     console.log("up", event.detail);
   });
+
+  function renderGame() {
+    ctx.clearRect(0, 0, 700, 700);
+
+    for (let player of players) {
+      ctx.fillRect(player.x, player.y, 80, 80);
+    }
+  }
 
   let then = performance.now();
 </script>
