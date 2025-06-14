@@ -600,7 +600,7 @@
           (gamepadButtons[i] && now - gamepadButtons[i] > 500)
         ) {
           gamepadButtons[i] = now;
-          
+
           dispatchEvent(
             new CustomEvent("gamepadbuttondown", { detail: { i, mygamepad } })
           );
@@ -633,10 +633,7 @@
         }
       }
     }
-    requestAnimationFrame(loopGamepad);
   }
-
-  requestAnimationFrame(loopGamepad);
 
   console.log(navigator.getGamepads.length);
 

@@ -1,0 +1,105 @@
+<link rel="icon" href="../../ayplay.webp" />
+
+<script type="module">
+  const canvas = document.getElementById("tutorial");
+  const ctx = canvas.getContext("2d");
+
+  function getRandomInt(min, max) {
+    return min + Math.floor((max - min + 1) * Math.random());
+  }
+
+  const buttonPresses = {
+    0: null,
+    1: null,
+    2: null,
+    3: null,
+    4: null,
+    5: null,
+    6: null,
+    7: null,
+    8: null,
+    9: null,
+  };
+
+  function loop(now) {
+    requestAnimationFrame(loop);
+    let delta = now - then;
+    then = now;
+    loopGamepad(now);
+  }
+
+  requestAnimationFrame(loop);
+
+  const gamepads = Object.create(null);
+
+  function loopGamepad(time) {
+    for (let gamepad of navigator.getGamepads()) {
+      if (!gamepad) continue;
+
+      const { index: gamepadId } = gamepad;
+
+      gamepads[gamepadId] ??= { buttons: {} };
+
+      for (let [i, { value }] of Object.entries(gamepad.buttons)) {
+        const buttonId = Number(i);
+
+        if (
+          (!gamepads[gamepadId].buttons[buttonId] && value > 0.8) ||
+          (gamepads[gamepadId].buttons[buttonId] &&
+            time - gamepads[gamepadId].buttons[buttonId] > 500)
+        ) {
+          gamepads[gamepadId].buttons[buttonId] = time;
+
+          dispatchEvent(
+            new CustomEvent("gamepadbuttondown", {
+              detail: { gamepadId, buttonId, value, time },
+            })
+          );
+        }
+
+        if (gamepads[gamepadId].buttons[buttonId] && value < 0.1) {
+          delete gamepads[gamepadId].buttons[buttonId];
+
+          dispatchEvent(
+            new CustomEvent("gamepadbuttonup", {
+              detail: { gamepadId, buttonId, value, time },
+            })
+          );
+        }
+      }
+
+      // for (let [i, { value }] of Object.entries(gamepad.sticks)) {
+      //   if (gamepad.axes[i] > 5) {
+      //     dispatchEvent(new CustomEvent("gamepadleftstickleft", { detail: i }));
+      //     delete gamepadSticks[i];
+      //   }
+      // }
+
+      // gamepad.axes[2];
+
+      //   if (gamepad.axes[0] > 0.5 && mygamepad === 1) {
+      //     players[0].vx = -3;
+      //   } else {
+      //     if (gamepad.axes[0] < -0.5) {
+      //       players[0].vx = 3;
+      //     } else {
+      //       players[0].vx = 0;
+      //     }
+      //   }
+    }
+  }
+
+  addEventListener("gamepadbuttondown", (event) => {
+    console.log("down", event.detail);
+  });
+
+  addEventListener("gamepadbuttonup", (event) => {
+    console.log("up", event.detail);
+  });
+
+  let then = performance.now();
+</script>
+
+<style></style>
+
+<canvas id="tutorial" width="700" height="700"> </canvas>
