@@ -22,10 +22,10 @@
   };
 
   let players = [
-    { x: 0, y: 300 },
-    { x: 200, y: 300 },
-    { x: 400, y: 300 },
-    { x: 600, y: 300 },
+    { id: "0", x: 0, y: 300, gamepad: null },
+    { id: "0", x: 200, y: 300, gamepad: null },
+    { id: "0", x: 400, y: 300, gamepad: null },
+    { id: "0", x: 600, y: 300, gamepad: null },
   ];
 
   function loop(now) {
@@ -97,10 +97,99 @@
     }
   }
 
+  let playergamepad = 0;
+
+  function notFirstTime(a, b, c, d) {}
+
   addEventListener("gamepadbuttondown", (event) => {
     console.log("down", event.detail);
 
-    players[event.detail.gamepadId].x += 10;
+    if (playergamepad === 0) {
+      let j = event.detail.gamepadId;
+      players[playergamepad].gamepad = j;
+      playergamepad++;
+    } else {
+      notFirstTime(
+        event.detail.gamepadId,
+        event.detail.buttonId,
+        event.detail.value,
+        event.detail.time
+      );
+    }
+
+    if (playergamepad === 1 && event.detail.gamepadId !== players[0].gamepad) {
+      let j = event.detail.gamepadId;
+      players[playergamepad].gamepad = j;
+      playergamepad++;
+    } else {
+      notFirstTime(
+        event.detail.gamepadId,
+        event.detail.buttonId,
+        event.detail.value,
+        event.detail.time
+      );
+    }
+
+    if (
+      playergamepad === 2 &&
+      event.detail.gamepadId !== players[0].gamepad &&
+      event.detail.gamepadId !== players[1].gamepad
+    ) {
+      let j = event.detail.gamepadId;
+      players[playergamepad].gamepad = j;
+      playergamepad++;
+    } else {
+      notFirstTime(
+        event.detail.gamepadId,
+        event.detail.buttonId,
+        event.detail.value,
+        event.detail.time
+      );
+    }
+
+    if (
+      playergamepad === 3 &&
+      event.detail.gamepadId !== players[0].gamepad &&
+      event.detail.gamepadId !== players[1].gamepad &&
+      event.detail.gamepadId !== players[3].gamepad
+    ) {
+      let j = event.detail.gamepadId;
+      players[playergamepad].gamepad = j;
+      playergamepad++;
+    } else {
+      notFirstTime(
+        event.detail.gamepadId,
+        event.detail.buttonId,
+        event.detail.value,
+        event.detail.time
+      );
+    }
+
+    // if (players.length === 0) {
+    //   players[j] = { id: "0", x: x, y: 300, gamepad: event.detail.gamepadId };
+    // }
+    // if (players.length === 1 && event.detail.gamepadId !== players[0].gamepad) {
+    //   players[j] = { id: "0", x: x, y: 300, gamepad: event.detail.gamepadId };
+    // }
+    // if (
+    //   (players.length === 2 && event.detail.gamepadId !== players[0].gamepad) ||
+    //   (players.length === 3 && event.detail.gamepadId !== players[1].gamepad)
+    // ) {
+    //   players[j] = { id: "0", x: x, y: 300, gamepad: event.detail.gamepadId };
+    // }
+    // if (
+    //   (players.length === 3 && event.detail.gamepadId !== players[0].gamepad) ||
+    //   (players.length === 3 && event.detail.gamepadId !== players[1].gamepad) ||
+    //   (players.length === 3 && event.detail.gamepadId !== players[2].gamepad)
+    // ) {
+    //   players[j] = { id: "0", x: x, y: 300, gamepad: event.detail.gamepadId };
+    // }
+
+    // x += 200;
+
+    // j++;
+
+    console.log(players);
   });
 
   addEventListener("gamepadbuttonup", (event) => {
@@ -111,7 +200,9 @@
     ctx.clearRect(0, 0, 700, 700);
 
     for (let player of players) {
-      ctx.fillRect(player.x, player.y, 80, 80);
+      if (player.gamepad !== null) {
+        ctx.fillRect(player.x, player.y, 80, 80);
+      }
     }
   }
 
