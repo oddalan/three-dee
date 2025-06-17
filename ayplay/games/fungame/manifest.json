@@ -1,0 +1,17 @@
+{
+    "name": "Fun Game",
+    "short_name": "Fun Game",
+    "description": "A fun game.",
+    "background_color": "#000000",
+    "theme_color": "#000000",
+    "display": "standalone",
+    "orientation": "landscape",
+    "start_url": "/",
+    "icons": [
+      {
+        "src": "./icon.webp",
+        "sizes": "256x256",
+        "type": "image/webp"
+      }
+    ]
+  }
