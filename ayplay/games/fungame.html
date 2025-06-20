@@ -29,10 +29,14 @@
 
   let players = [
     { id: "0", x: 0, y: 300, gamepad: null, color: "#ff0000" },
-    { id: "0", x: 200, y: 300, gamepad: null, color: " #ffdd00" },
-    { id: "0", x: 400, y: 300, gamepad: null, color: "#00dd00" },
-    { id: "0", x: 600, y: 300, gamepad: null, color: "purple" },
+    { id: "1", x: 200, y: 300, gamepad: null, color: " #ffdd00" },
+    { id: "2", x: 400, y: 300, gamepad: null, color: "#00dd00" },
+    { id: "3", x: 600, y: 300, gamepad: null, color: "purple" },
   ];
+
+  let monsters = []
+
+
 
   function loop(now) {
     requestAnimationFrame(loop);
@@ -81,6 +85,20 @@
           );
         }
       }
+      if (
+        gamepad.axes[0] > 0.2 ||
+        gamepad.axes[0] < 0.2 ||
+        gamepad.axes[1] > 0.2 ||
+        gamepad.axes[1] < 0.2
+      ) {
+        let stick0 = gamepad.axes[0];
+        let stick1 = gamepad.axes[1];
+        dispatchEvent(
+          new CustomEvent("leftstickmoved", {
+            detail: { stick0, stick1, gamepadId },
+          })
+        );
+      }
     }
   }
 
@@ -90,18 +108,26 @@
     if (mode === 1 && buttonId === 0) {
       mode = 2;
     }
+    if (mode === 2 && buttonId === 15) {
+      players[gamepadId].x += 10;
+    }
+    if (mode === 2 && buttonId === 14) {
+      players[gamepadId].x -= 10;
+    }
+    if (mode === 2 && buttonId === 13) {
+      players[gamepadId].y += 10;
+    }
+    if (mode === 2 && buttonId === 12) {
+      players[gamepadId].y -= 10;
+    }
   }
 
   addEventListener("gamepadbuttondown", (event) => {
-    console.log("down", event.detail);
-
     if (playergamepad === 0) {
       players[playergamepad].gamepad = event.detail.gamepadId;
-      console.log(playergamepad);
+
       playergamepad++;
     } else {
-      console.log(playergamepad);
-
       if (
         playergamepad === 1 &&
         event.detail.gamepadId !== players[0].gamepad
@@ -139,30 +165,6 @@
       }
     }
 
-    // if (players.length === 0) {
-    //   players[j] = { id: "0", x: x, y: 300, gamepad: event.detail.gamepadId };
-    // }
-    // if (players.length === 1 && event.detail.gamepadId !== players[0].gamepad) {
-    //   players[j] = { id: "0", x: x, y: 300, gamepad: event.detail.gamepadId };
-    // }
-    // if (
-    //   (players.length === 2 && event.detail.gamepadId !== players[0].gamepad) ||
-    //   (players.length === 3 && event.detail.gamepadId !== players[1].gamepad)
-    // ) {
-    //   players[j] = { id: "0", x: x, y: 300, gamepad: event.detail.gamepadId };
-    // }
-    // if (
-    //   (players.length === 3 && event.detail.gamepadId !== players[0].gamepad) ||
-    //   (players.length === 3 && event.detail.gamepadId !== players[1].gamepad) ||
-    //   (players.length === 3 && event.detail.gamepadId !== players[2].gamepad)
-    // ) {
-    //   players[j] = { id: "0", x: x, y: 300, gamepad: event.detail.gamepadId };
-    // }
-
-    // x += 200;
-
-    // j++;
-
     console.log(players);
   });
 
@@ -171,29 +173,31 @@
   });
 
   let gameplace = { x: -890, y: 10 };
+  let length = players.length;
+
+  let oneTime = 0;
+
   function renderGame() {
     ctx.clearRect(0, 0, 900, 700);
     ctx.fillStyle = "#555555";
     ctx.fillRect(0, 0, 900, 700);
     if (mode === 2) {
-      if (players[3].gamepad === null) {
-        delete players[3];
-        console.log(players.length);
+      if (players[3].gamepad === null && oneTime === 0) {
+        length--;
+        console.log(length);
+        oneTime = 1;
       }
 
-      if (players[2].gamepad === null) {
-        delete players[2];
-        console.log(players.length);
+      if (players[2].gamepad === null && oneTime === 1) {
+        length--;
+        console.log(length);
+        oneTime = 2;
       }
 
-      if (players[1].gamepad === null) {
-        delete players[1];
-        console.log(players.length);
-      }
-
-      if (players[0].gamepad === null) {
-        delete players[0];
-        console.log(players.length);
+      if (players[1].gamepad === null && oneTime === 2) {
+        length--;
+        console.log(length);
+        oneTime = 3;
       }
     }
 
@@ -204,20 +208,6 @@
       }
 
       if (mode === 2 && player.gamepad !== null) {
-        player.x = gameplace.x;
-        player.y = gameplace.y;
-
-        if (players.length === 2) {
-          if (gameplace.x > 900) {
-            gameplace.x = 10;
-          } else {
-            gameplace.x += 880;
-          }
-        }
-        if (players.length === 3) {
-        }
-        if (players.length === 4) {
-        }
         ctx.fillStyle = player.color;
         ctx.fillRect(player.x, player.y, 80, 80);
       }
