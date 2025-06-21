@@ -3,30 +3,39 @@
 <link rel="manifest" href="./manifest.json" />
 
 <script type="module">
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./service.js');
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./service.js");
   }
 </script>
 
 <h1>Ay-play</h1>
 
+<a class="favorite styled" href="./stuff.html">GAMES</a>
 
+<p>NEW!</p>
+<canvas id="tutorial"></canvas>
+<script type="module">
+  const tutorialContext = tutorial.getContext("2d");
 
-<p>Hi this is Ay-play</p>
-
-<p>
-  this is a link go
-  <a href="./stuff.html">here</a>
-  to see my games.
-</p>
-<!--
-<p>
-    I'm creating a link to
-    <a href="https://www.mozilla.org/en-US/">the Mozilla homepage</a>.
-  </p>
--->
+  function resizeContext() {
+    let { clientWidth, clientHeight } = tutorialContext.canvas;
+    tutorialContext.canvas.width = clientWidth;
+    tutorialContext.canvas.height = clientHeight;
+    tutorialContext.width = tutorialContext.canvas.clientWidth;
+    tutorialContext.height = tutorialContext.canvas.clientHeight;
+    tutorialContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
+  }
+  function renderContext() {}
+</script>
 
 <style>
+  html {
+    color-scheme: light dark;
+  }
+  body {
+    background: light-dark(white, black);
+    color: light-dark(black, white);
+  }
   h1 {
     color: rgb(255, 0, 0);
 
@@ -35,12 +44,43 @@
   h2 {
     font-family: "Gill Sans", sans-serif;
   }
-
+  html {
+    inset: 1;
+  }
   p {
     font-family: "Gill Sans", sans-serif;
   }
   a {
     font-family: "Gill Sans", sans-serif;
-    color: rgb(0, 0, 0);
+    color: light-dark(black, white);
   }
+
+  .styled {
+    border: 0;
+    line-height: 2.5;
+    padding: 10px 20px;
+    font-size: 1rem;
+    text-align: center;
+    color: light-dark(black, white);
+
+    border-radius: 10px;
+    background-color: rgb(255, 0, 0);
+
+    text-decoration: none;
+
+    /* box-shadow: inset 2px 2px 3px rgba(255, 255, 255, 0.6),
+      inset -2px -2px 3px rgba(0, 0, 0, 0.6); */
+  }
+
+  .styled:hover {
+    background-color: rgba(255, 0, 0, 1);
+  }
+
+  canvas {
+    z-index: 0;
+  }
+  /* .styled:active {
+    box-shadow: inset -2px -2px 3px rgba(255, 255, 255, 0.6),
+      inset 2px 2px 3px rgba(0, 0, 0, 0.6);
+  } */
 </style>

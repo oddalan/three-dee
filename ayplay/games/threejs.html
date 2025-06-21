@@ -263,12 +263,11 @@
         cone.position.y = b + 2;
         cone.position.x = c;
       }
-      function addChest(a){
-        const chestTopGeometry =  new THREE.BoxGeometry( a, b, c ); 
-        const chestTopMaterial = new THREE.MeshBasicMaterial( {color: a} ); 
-        const chestBottomGeometry =  new THREE.BoxGeometry(  ); 
-        const chestBottomMaterial = new THREE.MeshBasicMaterial( {color: a} ); 
-        
+      function addChest(a) {
+        const chestTopGeometry = new THREE.BoxGeometry(a, b, c);
+        const chestTopMaterial = new THREE.MeshBasicMaterial({ color: a });
+        const chestBottomGeometry = new THREE.BoxGeometry();
+        const chestBottomMaterial = new THREE.MeshBasicMaterial({ color: a });
       }
       camera.position.set(0, 3.6, 100);
 
@@ -471,13 +470,6 @@
       resizeContext();
       renderContext();
     </script>
-    <canvas
-      id="tutorial"
-      class="ui"
-      width="700"
-      height="700"
-      x="5"
-      y="10"
-    ></canvas>
+    <canvas id="tutorial" class="ui" width="700" height="700"></canvas>
   </body>
 </html>
