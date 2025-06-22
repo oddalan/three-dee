@@ -13,7 +13,7 @@
 <a class="favorite styled" href="./stuff.html">GAMES</a>
 
 <p>NEW!</p>
-<canvas id="tutorial"></canvas>
+
 <script type="module">
   const tutorialContext = tutorial.getContext("2d");
 
@@ -24,17 +24,35 @@
     tutorialContext.width = tutorialContext.canvas.clientWidth;
     tutorialContext.height = tutorialContext.canvas.clientHeight;
     tutorialContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    requestAnimationFrame(resizeContext);
   }
-  function renderContext() {}
-</script>
+  requestAnimationFrame(renderContext);
+  function renderContext() {
+    tutorialContext.fillRect(0, 0, 600, 300);
+    requestAnimationFrame(renderContext);
+  }
+  requestAnimationFrame(renderContext);
+  addEventListener(
+    "resize",
+    () => {
+      resizeContext();
+      renderContext();
+    },
+    { passive: true }
+  );
 
+  resizeContext();
+  renderContext();
+</script>
+<canvas id="tutorial"></canvas>
 <style>
   html {
     color-scheme: light dark;
   }
   body {
-    background: light-dark(white, black);
+    background: light-dark(rgb(255, 255, 255), rgb(0, 0, 0));
     color: light-dark(black, white);
+    z-index: 1;
   }
   h1 {
     color: rgb(255, 0, 0);
@@ -44,9 +62,7 @@
   h2 {
     font-family: "Gill Sans", sans-serif;
   }
-  html {
-    inset: 1;
-  }
+
   p {
     font-family: "Gill Sans", sans-serif;
   }
@@ -67,9 +83,6 @@
     background-color: rgb(255, 0, 0);
 
     text-decoration: none;
-
-    /* box-shadow: inset 2px 2px 3px rgba(255, 255, 255, 0.6),
-      inset -2px -2px 3px rgba(0, 0, 0, 0.6); */
   }
 
   .styled:hover {
@@ -77,10 +90,10 @@
   }
 
   canvas {
-    z-index: 0;
+    position: fixed;
+    inset: 1;
+
+    width: 100%;
+    height: 100%;
   }
-  /* .styled:active {
-    box-shadow: inset -2px -2px 3px rgba(255, 255, 255, 0.6),
-      inset 2px 2px 3px rgba(0, 0, 0, 0.6);
-  } */
 </style>
