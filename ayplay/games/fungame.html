@@ -2,6 +2,8 @@
 
 <link rel="icon" href="../../ayplay.webp" />
 
+<style></style>
+
 <script type="module">
   const canvas = document.getElementById("tutorial");
   const ctx = canvas.getContext("2d");
@@ -9,6 +11,8 @@
   function getRandomInt(min, max) {
     return min + Math.floor((max - min + 1) * Math.random());
   }
+
+  let mode = 1;
 
   const buttonPresses = {
     0: null,
@@ -24,11 +28,15 @@
   };
 
   let players = [
-    { id: "0", x: 0, y: 300, gamepad: null },
-    { id: "0", x: 200, y: 300, gamepad: null },
-    { id: "0", x: 400, y: 300, gamepad: null },
-    { id: "0", x: 600, y: 300, gamepad: null },
+    { id: "0", x: 0, y: 300, gamepad: null, color: "#ff0000" },
+    { id: "1", x: 200, y: 300, gamepad: null, color: " #ffdd00" },
+    { id: "2", x: 400, y: 300, gamepad: null, color: "#00dd00" },
+    { id: "3", x: 600, y: 300, gamepad: null, color: "purple" },
   ];
+
+  let monsters = []
+
+
 
   function loop(now) {
     requestAnimationFrame(loop);
@@ -77,119 +85,85 @@
           );
         }
       }
-
-      // for (let [i, { value }] of Object.entries(gamepad.sticks)) {
-      //   if (gamepad.axes[i] > 5) {
-      //     dispatchEvent(new CustomEvent("gamepadleftstickleft", { detail: i }));
-      //     delete gamepadSticks[i];
-      //   }
-      // }
-
-      // gamepad.axes[2];
-
-      //   if (gamepad.axes[0] > 0.5 && mygamepad === 1) {
-      //     players[0].vx = -3;
-      //   } else {
-      //     if (gamepad.axes[0] < -0.5) {
-      //       players[0].vx = 3;
-      //     } else {
-      //       players[0].vx = 0;
-      //     }
-      //   }
+      if (
+        gamepad.axes[0] > 0.2 ||
+        gamepad.axes[0] < 0.2 ||
+        gamepad.axes[1] > 0.2 ||
+        gamepad.axes[1] < 0.2
+      ) {
+        let stick0 = gamepad.axes[0];
+        let stick1 = gamepad.axes[1];
+        dispatchEvent(
+          new CustomEvent("leftstickmoved", {
+            detail: { stick0, stick1, gamepadId },
+          })
+        );
+      }
     }
   }
 
   let playergamepad = 0;
 
-  function notFirstTime(a, b, c, d) {}
+  function notFirstTime(gamepadId, buttonId, value, time) {
+    if (mode === 1 && buttonId === 0) {
+      mode = 2;
+    }
+    if (mode === 2 && buttonId === 15) {
+      players[gamepadId].x += 10;
+    }
+    if (mode === 2 && buttonId === 14) {
+      players[gamepadId].x -= 10;
+    }
+    if (mode === 2 && buttonId === 13) {
+      players[gamepadId].y += 10;
+    }
+    if (mode === 2 && buttonId === 12) {
+      players[gamepadId].y -= 10;
+    }
+  }
 
   addEventListener("gamepadbuttondown", (event) => {
-    console.log("down", event.detail);
-
     if (playergamepad === 0) {
-      let j = event.detail.gamepadId;
-      players[playergamepad].gamepad = j;
+      players[playergamepad].gamepad = event.detail.gamepadId;
+
       playergamepad++;
     } else {
-      notFirstTime(
-        event.detail.gamepadId,
-        event.detail.buttonId,
-        event.detail.value,
-        event.detail.time
-      );
+      if (
+        playergamepad === 1 &&
+        event.detail.gamepadId !== players[0].gamepad
+      ) {
+        players[playergamepad].gamepad = event.detail.gamepadId;
+        playergamepad++;
+      } else {
+        console.log("it worked");
+
+        if (
+          playergamepad === 2 &&
+          event.detail.gamepadId !== players[0].gamepad &&
+          event.detail.gamepadId !== players[1].gamepad
+        ) {
+          players[playergamepad].gamepad = event.detail.gamepadId;
+          playergamepad++;
+        } else {
+          if (
+            playergamepad === 3 &&
+            event.detail.gamepadId !== players[0].gamepad &&
+            event.detail.gamepadId !== players[1].gamepad &&
+            event.detail.gamepadId !== players[3].gamepad
+          ) {
+            players[playergamepad].gamepad = event.detail.gamepadId;
+            playergamepad++;
+          } else {
+            notFirstTime(
+              event.detail.gamepadId,
+              event.detail.buttonId,
+              event.detail.value,
+              event.detail.time
+            );
+          }
+        }
+      }
     }
-
-    if (playergamepad === 1 && event.detail.gamepadId !== players[0].gamepad) {
-      let j = event.detail.gamepadId;
-      players[playergamepad].gamepad = j;
-      playergamepad++;
-    } else {
-      notFirstTime(
-        event.detail.gamepadId,
-        event.detail.buttonId,
-        event.detail.value,
-        event.detail.time
-      );
-    }
-
-    if (
-      playergamepad === 2 &&
-      event.detail.gamepadId !== players[0].gamepad &&
-      event.detail.gamepadId !== players[1].gamepad
-    ) {
-      let j = event.detail.gamepadId;
-      players[playergamepad].gamepad = j;
-      playergamepad++;
-    } else {
-      notFirstTime(
-        event.detail.gamepadId,
-        event.detail.buttonId,
-        event.detail.value,
-        event.detail.time
-      );
-    }
-
-    if (
-      playergamepad === 3 &&
-      event.detail.gamepadId !== players[0].gamepad &&
-      event.detail.gamepadId !== players[1].gamepad &&
-      event.detail.gamepadId !== players[3].gamepad
-    ) {
-      let j = event.detail.gamepadId;
-      players[playergamepad].gamepad = j;
-      playergamepad++;
-    } else {
-      notFirstTime(
-        event.detail.gamepadId,
-        event.detail.buttonId,
-        event.detail.value,
-        event.detail.time
-      );
-    }
-
-    // if (players.length === 0) {
-    //   players[j] = { id: "0", x: x, y: 300, gamepad: event.detail.gamepadId };
-    // }
-    // if (players.length === 1 && event.detail.gamepadId !== players[0].gamepad) {
-    //   players[j] = { id: "0", x: x, y: 300, gamepad: event.detail.gamepadId };
-    // }
-    // if (
-    //   (players.length === 2 && event.detail.gamepadId !== players[0].gamepad) ||
-    //   (players.length === 3 && event.detail.gamepadId !== players[1].gamepad)
-    // ) {
-    //   players[j] = { id: "0", x: x, y: 300, gamepad: event.detail.gamepadId };
-    // }
-    // if (
-    //   (players.length === 3 && event.detail.gamepadId !== players[0].gamepad) ||
-    //   (players.length === 3 && event.detail.gamepadId !== players[1].gamepad) ||
-    //   (players.length === 3 && event.detail.gamepadId !== players[2].gamepad)
-    // ) {
-    //   players[j] = { id: "0", x: x, y: 300, gamepad: event.detail.gamepadId };
-    // }
-
-    // x += 200;
-
-    // j++;
 
     console.log(players);
   });
@@ -198,11 +172,43 @@
     console.log("up", event.detail);
   });
 
+  let gameplace = { x: -890, y: 10 };
+  let length = players.length;
+
+  let oneTime = 0;
+
   function renderGame() {
-    ctx.clearRect(0, 0, 700, 700);
+    ctx.clearRect(0, 0, 900, 700);
+    ctx.fillStyle = "#555555";
+    ctx.fillRect(0, 0, 900, 700);
+    if (mode === 2) {
+      if (players[3].gamepad === null && oneTime === 0) {
+        length--;
+        console.log(length);
+        oneTime = 1;
+      }
+
+      if (players[2].gamepad === null && oneTime === 1) {
+        length--;
+        console.log(length);
+        oneTime = 2;
+      }
+
+      if (players[1].gamepad === null && oneTime === 2) {
+        length--;
+        console.log(length);
+        oneTime = 3;
+      }
+    }
 
     for (let player of players) {
-      if (player.gamepad !== null) {
+      if (mode === 1 && player.gamepad !== null) {
+        ctx.fillStyle = player.color;
+        ctx.fillRect(player.x + 10, player.y, 80, 80);
+      }
+
+      if (mode === 2 && player.gamepad !== null) {
+        ctx.fillStyle = player.color;
         ctx.fillRect(player.x, player.y, 80, 80);
       }
     }
@@ -211,6 +217,4 @@
   let then = performance.now();
 </script>
 
-<style></style>
-
-<canvas id="tutorial" width="700" height="700"> </canvas>
+<canvas id="tutorial" width="900" height="700"> </canvas>

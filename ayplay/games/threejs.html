@@ -37,8 +37,6 @@
       const renderer = new THREE.WebGLRenderer();
       renderer.setSize(window.innerWidth, window.innerHeight);
       document.body.appendChild(renderer.domElement);
-      renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
 
       const camera = new THREE.PerspectiveCamera(
         45,
@@ -67,15 +65,6 @@
 
       cube3.position.set(0, 2, 97);
 
-      const light = new THREE.DirectionalLight(0xffffff, 1);
-      light.position.set(0, 10, 0); //default; light shining from top
-      light.castShadow = true; // default false
-      light.intensity = 5;
-      light.shadow.mapSize.width = 512; // default
-      light.shadow.mapSize.height = 512; // default
-      light.shadow.camera.near = 0.5; // default
-      light.shadow.camera.far = 500; // default
-
       const cube1geometry = new THREE.BoxGeometry(1, 1, 1);
       const cube1material = new THREE.MeshBasicMaterial({ color: 0xffffff });
       const cube1 = new THREE.Mesh(cube1geometry, cube1material);
@@ -96,10 +85,6 @@
 
       shadow.position.z = 95;
 
-      const cube2geometry = new THREE.BoxGeometry(1, 1, 1);
-      const cube2material = new THREE.MeshBasicMaterial({ color: 0xffffff });
-      const cube2 = new THREE.Mesh(cube2geometry, cube2material);
-
       const playergeometry = new THREE.BoxGeometry(2, 2, 2);
       const playermaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
       const player = new THREE.Mesh(playergeometry, playermaterial);
@@ -115,19 +100,14 @@
       plane.receiveShadow = true; // not default
 
       // cube1.position.z = 65;
-      let playerx = 2;
-      let playery = 0;
-      let playerz = 85;
+      let playerx = JSON.parse(localStorage.getItem("x"));
+      console.log(JSON.parse(localStorage.getItem("x")));
+      let playery = JSON.parse(localStorage.getItem("y"));
+      console.log(JSON.parse(localStorage.getItem("y")));
+      let playerz = JSON.parse(localStorage.getItem("z"));
+      console.log(JSON.parse(localStorage.getItem("z")));
 
-      localStorage.setItem("x", "2");
-      localStorage.setItem("y", "0");
-      localStorage.setItem("z", "85");
-
-      console.log(localStorage.getItem("x"));
-      console.log(localStorage.getItem("y"));
-      console.log(localStorage.getItem("z"));
-
-      let a = 0;
+      let a = JSON.parse(localStorage.getItem("a"));
       let b = 0;
       let cube1cos1 = Math.cos(a);
       let cube1sin1 = Math.sin(a);
@@ -283,6 +263,12 @@
         cone.position.y = b + 2;
         cone.position.x = c;
       }
+      function addChest(a) {
+        const chestTopGeometry = new THREE.BoxGeometry(a, b, c);
+        const chestTopMaterial = new THREE.MeshBasicMaterial({ color: a });
+        const chestBottomGeometry = new THREE.BoxGeometry();
+        const chestBottomMaterial = new THREE.MeshBasicMaterial({ color: a });
+      }
       camera.position.set(0, 3.6, 100);
 
       const scene = new THREE.Scene();
@@ -290,28 +276,19 @@
       let cube1cos2 = Math.cos(b);
       let cube1sin2 = Math.sin(b);
 
-      console.log(cube1cos1, cube1sin1);
-      console.log(cube1.BoxGeometry);
-      console.log(light);
-      console.log();
+      player.position.x = JSON.parse(localStorage.getItem("x"));
+      player.position.y = JSON.parse(localStorage.getItem("y"));
+      player.position.z = JSON.parse(localStorage.getItem("z"));
       function animate() {
-        scene.add(light);
         // animate animate animate animate animate animate
         boxes[1].x = cube1.position.x;
         boxes[1].y = cube1.position.y;
         boxes[1].z = cube1.position.z;
         renderer.render(scene, camera);
-        scene.add(cube1);
-        scene.add(cube2);
-        scene.add(cube3);
 
         camera.position.x = player.position.x + cube1sin1 * 5;
         camera.position.y = player.position.y + 5 + cube1sin2 * 5;
         camera.position.z = player.position.z + cube1cos1 * 5;
-
-        cube2.position.x = cube1sin1;
-        cube2.position.z = cube1cos1 + 95;
-        cube2.position.y = 1;
 
         cube1cos1 = Math.cos(a) * 5;
         cube1sin1 = Math.sin(a) * 5;
@@ -339,9 +316,6 @@
         plane.position.y = -1.5;
 
         plane.rotation.x = (90 * Math.PI) / 180;
-
-        const helper = new THREE.CameraHelper(light.shadow.camera);
-        scene.add(helper);
       }
       let number = 300;
       let newnumber = 0;
@@ -355,7 +329,6 @@
       let z = 5;
 
       addEventListener("keydown", (event) => {
-        // console.log(x);
         if (event.key === "d") {
           player.position.z -= cube1sin1 / 10;
           player.position.x += cube1cos1 / 10;
@@ -420,6 +393,25 @@
           console.log("sin", Math.sin(b), "cos", Math.cos(b));
           b += 0.1;
         }
+        if (event.key === "e") {
+          localStorage.setItem("x", JSON.stringify(player.position.x));
+
+          localStorage.setItem("y", JSON.stringify(player.position.y));
+
+          localStorage.setItem("z", JSON.stringify(player.position.z));
+
+          localStorage.setItem("a", JSON.stringify(a));
+        }
+
+        if (event.key === "h") {
+          localStorage.setItem("x", "0");
+
+          localStorage.setItem("y", "0");
+
+          localStorage.setItem("z", "90");
+
+          localStorage.setItem("a", "0");
+        }
       });
 
       const tutorialContext = tutorial.getContext("2d");
@@ -478,13 +470,6 @@
       resizeContext();
       renderContext();
     </script>
-    <canvas
-      id="tutorial"
-      class="ui"
-      width="700"
-      height="700"
-      x="5"
-      y="10"
-    ></canvas>
+    <canvas id="tutorial" class="ui" width="700" height="700"></canvas>
   </body>
 </html>

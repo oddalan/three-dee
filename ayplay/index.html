@@ -3,30 +3,57 @@
 <link rel="manifest" href="./manifest.json" />
 
 <script type="module">
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./service.js');
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./service.js");
   }
 </script>
 
 <h1>Ay-play</h1>
 
+<a class="favorite styled" href="./stuff.html">GAMES</a>
 
+<p>NEW!</p>
 
-<p>Hi this is Ay-play</p>
+<script type="module">
+  const tutorialContext = tutorial.getContext("2d");
 
-<p>
-  this is a link go
-  <a href="./stuff.html">here</a>
-  to see my games.
-</p>
-<!--
-<p>
-    I'm creating a link to
-    <a href="https://www.mozilla.org/en-US/">the Mozilla homepage</a>.
-  </p>
--->
+  function resizeContext() {
+    let { clientWidth, clientHeight } = tutorialContext.canvas;
+    tutorialContext.canvas.width = clientWidth;
+    tutorialContext.canvas.height = clientHeight;
+    tutorialContext.width = tutorialContext.canvas.clientWidth;
+    tutorialContext.height = tutorialContext.canvas.clientHeight;
+    tutorialContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    requestAnimationFrame(resizeContext);
+  }
+  requestAnimationFrame(renderContext);
+  function renderContext() {
+    tutorialContext.fillRect(0, 0, 600, 300);
+    requestAnimationFrame(renderContext);
+  }
+  requestAnimationFrame(renderContext);
+  addEventListener(
+    "resize",
+    () => {
+      resizeContext();
+      renderContext();
+    },
+    { passive: true }
+  );
 
+  resizeContext();
+  renderContext();
+</script>
+<canvas id="tutorial"></canvas>
 <style>
+  html {
+    color-scheme: light dark;
+  }
+  body {
+    background: light-dark(rgb(255, 255, 255), rgb(0, 0, 0));
+    color: light-dark(black, white);
+    z-index: 1;
+  }
   h1 {
     color: rgb(255, 0, 0);
 
@@ -41,6 +68,32 @@
   }
   a {
     font-family: "Gill Sans", sans-serif;
-    color: rgb(0, 0, 0);
+    color: light-dark(black, white);
+  }
+
+  .styled {
+    border: 0;
+    line-height: 2.5;
+    padding: 10px 20px;
+    font-size: 1rem;
+    text-align: center;
+    color: light-dark(black, white);
+
+    border-radius: 10px;
+    background-color: rgb(255, 0, 0);
+
+    text-decoration: none;
+  }
+
+  .styled:hover {
+    background-color: rgba(255, 0, 0, 1);
+  }
+
+  canvas {
+    position: fixed;
+    inset: 1;
+
+    width: 100%;
+    height: 100%;
   }
 </style>
