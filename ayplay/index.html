@@ -1,50 +1,18 @@
 <title>Ay-play</title>
-
 <link rel="manifest" href="./manifest.json" />
-
 <script type="module">
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("./service.js");
   }
 </script>
-
+<img alt="logo" src="./finished-ayplay-logo.png"  width="500" height="250">
+</img>
 <h1>Ay-play</h1>
-
 <a class="favorite styled" href="./stuff.html">GAMES</a>
-
 <p>NEW!</p>
+<basic-shape>
 
-<script type="module">
-  const tutorialContext = tutorial.getContext("2d");
-
-  function resizeContext() {
-    let { clientWidth, clientHeight } = tutorialContext.canvas;
-    tutorialContext.canvas.width = clientWidth;
-    tutorialContext.canvas.height = clientHeight;
-    tutorialContext.width = tutorialContext.canvas.clientWidth;
-    tutorialContext.height = tutorialContext.canvas.clientHeight;
-    tutorialContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    requestAnimationFrame(resizeContext);
-  }
-  requestAnimationFrame(renderContext);
-  function renderContext() {
-    tutorialContext.fillRect(0, 0, 600, 300);
-    requestAnimationFrame(renderContext);
-  }
-  requestAnimationFrame(renderContext);
-  addEventListener(
-    "resize",
-    () => {
-      resizeContext();
-      renderContext();
-    },
-    { passive: true }
-  );
-
-  resizeContext();
-  renderContext();
-</script>
-<canvas id="tutorial"></canvas>
+</basic-shape>
 <style>
   html {
     color-scheme: light dark;
@@ -58,6 +26,9 @@
     color: rgb(255, 0, 0);
 
     font-family: "Gill Sans", sans-serif;
+  }
+  clipPath { 
+    inset:(22% 12% 15px 35px);
   }
   h2 {
     font-family: "Gill Sans", sans-serif;
